@@ -133,7 +133,7 @@ npm --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/aws-services-site.git
+git clone https://github.com/jxman/aws-services-site.git
 cd aws-services-site
 
 # Install dependencies
