@@ -1,0 +1,89 @@
+# ===================================
+# AWS Services Dashboard - .gitignore
+# ===================================
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# IDE and Editor Files
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows Files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+
+# Build Outputs
+build/
+out/
+
+# Backup Files
+*.backup
+*.bak
+*.orig
+*-backup.*
+*-old.*
+
+# Temporary Files and Directories
+tmp/
+temp/
+.tmp/
+*.tmp
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc Build Tools
+.cache/
+.vite/
+.parcel-cache/
+
+# Deployment Artifacts
+/tmp/aws-dashboard-backups/
+
+# Placeholder and Temporary HTML Files
+*placeholder*.html
+*-current.html
+
+# Lock Files (Optional - uncomment if not sharing across team)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
