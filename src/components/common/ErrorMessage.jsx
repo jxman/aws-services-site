@@ -3,7 +3,7 @@ function ErrorMessage({ error, retry }) {
 
   return (
     <div className="flex items-center justify-center min-h-[400px]">
-      <div className="max-w-md w-full bg-bg-secondary border border-status-error rounded-lg p-8">
+      <div className="max-w-md w-full bg-bg-light-secondary dark:bg-bg-secondary border border-status-error rounded-lg p-8">
         {/* Error Icon */}
         <div className="flex justify-center mb-4">
           <div className="w-16 h-16 bg-status-error/10 rounded-full flex items-center justify-center">
@@ -24,12 +24,12 @@ function ErrorMessage({ error, retry }) {
         </div>
 
         {/* Error Title */}
-        <h3 className="text-xl font-bold text-text-primary text-center mb-2">
+        <h3 className="text-xl font-bold text-text-light-primary dark:text-text-primary text-center mb-2">
           Failed to Load Data
         </h3>
 
         {/* Error Message */}
-        <p className="text-text-secondary text-center mb-6">
+        <p className="text-text-light-secondary dark:text-text-secondary text-center mb-6">
           {errorMessage}
         </p>
 
@@ -37,15 +37,15 @@ function ErrorMessage({ error, retry }) {
         {retry && (
           <button
             onClick={retry}
-            className="w-full bg-primary hover:bg-primary-dark text-bg-primary font-medium py-2 px-4 rounded-md transition-colors"
+            className="w-full bg-primary hover:bg-primary-dark text-white dark:text-bg-primary font-medium py-2 px-4 rounded-md transition-colors"
           >
             Try Again
           </button>
         )}
 
         {/* Help Text */}
-        <div className="mt-6 pt-6 border-t border-border">
-          <p className="text-text-secondary text-sm text-center">
+        <div className="mt-6 pt-6 border-t border-border-light dark:border-border">
+          <p className="text-text-light-secondary dark:text-text-secondary text-sm text-center">
             If this issue persists, the data source may be temporarily unavailable.
             Data is updated daily at 2:00 AM UTC.
           </p>

@@ -24,14 +24,14 @@ function Dashboard() {
     <Container>
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">
+        <h1 className="text-3xl font-bold text-text-light-primary dark:text-text-primary mb-2">
           AWS Services Dashboard
         </h1>
-        <p className="text-text-secondary">
+        <p className="text-text-light-secondary dark:text-text-secondary">
           Real-time AWS infrastructure visualization across all regions and services
         </p>
         {lastUpdated && (
-          <p className="text-text-secondary text-sm mt-2">
+          <p className="text-text-light-secondary dark:text-text-secondary text-sm mt-2">
             Last updated: {formatRelativeTime(lastUpdated)}
           </p>
         )}
@@ -91,17 +91,17 @@ function Dashboard() {
       {/* Content Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Data Source Info */}
-        <div className="bg-bg-secondary rounded-lg p-6 border border-border">
-          <h2 className="text-xl font-semibold text-text-primary mb-4">
+        <div className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+          <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
             Data Source
           </h2>
-          <div className="space-y-3 text-text-secondary">
+          <div className="space-y-3 text-text-light-secondary dark:text-text-secondary">
             <div className="flex items-start">
               <svg className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <p className="font-medium text-text-primary">AWS Systems Manager Parameter Store</p>
+                <p className="font-medium text-text-light-primary dark:text-text-primary">AWS Systems Manager Parameter Store</p>
                 <p className="text-sm">Authoritative source for AWS infrastructure metadata</p>
               </div>
             </div>
@@ -110,7 +110,7 @@ function Dashboard() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <p className="font-medium text-text-primary">Daily Updates at 2:00 AM UTC</p>
+                <p className="font-medium text-text-light-primary dark:text-text-primary">Daily Updates at 2:00 AM UTC</p>
                 <p className="text-sm">Automated Lambda function fetches latest data</p>
               </div>
             </div>
@@ -119,7 +119,7 @@ function Dashboard() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               <div>
-                <p className="font-medium text-text-primary">CloudFront CDN Distribution</p>
+                <p className="font-medium text-text-light-primary dark:text-text-primary">CloudFront CDN Distribution</p>
                 <p className="text-sm">Global edge caching for fast data access</p>
               </div>
             </div>
@@ -127,19 +127,19 @@ function Dashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-bg-secondary rounded-lg p-6 border border-border">
-          <h2 className="text-xl font-semibold text-text-primary mb-4">
+        <div className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+          <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
             Quick Actions
           </h2>
           <div className="space-y-3">
             <a
               href="/regions"
-              className="block p-4 bg-bg-tertiary rounded-lg hover:bg-bg-primary border border-border hover:border-primary transition-colors"
+              className="block p-4 bg-bg-light-tertiary dark:bg-bg-tertiary rounded-lg hover:bg-gray-200 dark:hover:bg-bg-primary border border-border-light dark:border-border hover:border-primary transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-medium text-text-primary">Explore Regions</h3>
-                  <p className="text-sm text-text-secondary">Browse all {stats.totalRegions} AWS regions</p>
+                  <h3 className="font-medium text-text-light-primary dark:text-text-primary">Explore Regions</h3>
+                  <p className="text-sm text-text-light-secondary dark:text-text-secondary">Browse all {stats.totalRegions} AWS regions</p>
                 </div>
                 <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -149,12 +149,12 @@ function Dashboard() {
 
             <a
               href="/services"
-              className="block p-4 bg-bg-tertiary rounded-lg hover:bg-bg-primary border border-border hover:border-primary transition-colors"
+              className="block p-4 bg-bg-light-tertiary dark:bg-bg-tertiary rounded-lg hover:bg-gray-200 dark:hover:bg-bg-primary border border-border-light dark:border-border hover:border-primary transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-medium text-text-primary">Browse Services</h3>
-                  <p className="text-sm text-text-secondary">View all {stats.totalServices} AWS services</p>
+                  <h3 className="font-medium text-text-light-primary dark:text-text-primary">Browse Services</h3>
+                  <p className="text-sm text-text-light-secondary dark:text-text-secondary">View all {stats.totalServices} AWS services</p>
                 </div>
                 <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -164,12 +164,12 @@ function Dashboard() {
 
             <a
               href="/reports"
-              className="block p-4 bg-bg-tertiary rounded-lg hover:bg-bg-primary border border-border hover:border-primary transition-colors"
+              className="block p-4 bg-bg-light-tertiary dark:bg-bg-tertiary rounded-lg hover:bg-gray-200 dark:hover:bg-bg-primary border border-border-light dark:border-border hover:border-primary transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-medium text-text-primary">Report Center</h3>
-                  <p className="text-sm text-text-secondary">Excel and CSV export options</p>
+                  <h3 className="font-medium text-text-light-primary dark:text-text-primary">Report Center</h3>
+                  <p className="text-sm text-text-light-secondary dark:text-text-secondary">Excel and CSV export options</p>
                 </div>
                 <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

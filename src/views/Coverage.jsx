@@ -106,8 +106,8 @@ function Coverage() {
   return (
     <Container className="max-w-full">
       <div className="mb-6">
-        <h1 className="text-4xl font-bold text-text-primary mb-2">Coverage Matrix</h1>
-        <p className="text-text-secondary text-lg">
+        <h1 className="text-4xl font-bold text-text-light-primary dark:text-text-primary mb-2">Coverage Matrix</h1>
+        <p className="text-text-light-secondary dark:text-text-secondary text-lg">
           Service × Region availability for {matrixData.services.length} AWS services across {matrixData.regions.length} regions
         </p>
       </div>
@@ -119,11 +119,11 @@ function Coverage() {
             placeholder="Search services..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg text-text-light-primary dark:text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
-        <label className="flex items-center gap-2 text-text-secondary cursor-pointer">
+        <label className="flex items-center gap-2 text-text-light-secondary dark:text-text-secondary cursor-pointer">
           <input
             type="checkbox"
             checked={showAvailableOnly}
@@ -144,22 +144,22 @@ function Coverage() {
         </button>
       </div>
 
-      <div className="text-text-secondary mb-4">
+      <div className="text-text-light-secondary dark:text-text-secondary mb-4">
         Showing {filteredServices.length} of {matrixData.services.length} services
       </div>
 
-      <div className="bg-bg-secondary border border-border rounded-lg overflow-hidden">
-        <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-300px)]">
+      <div className="bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg overflow-hidden">
+        <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-300px)] relative">
           <table className="w-full text-sm">
-            <thead className="sticky top-0 bg-bg-tertiary z-10">
+            <thead className="sticky top-0 bg-bg-light-tertiary dark:bg-bg-tertiary z-[5]">
               <tr>
-                <th className="sticky left-0 bg-bg-tertiary px-4 py-3 text-left text-text-primary font-semibold border-b border-r border-border min-w-[250px]">
+                <th className="sticky left-0 bg-bg-light-tertiary dark:bg-bg-tertiary px-4 py-3 text-left text-text-light-primary dark:text-text-primary font-semibold border-b border-r border-border-light dark:border-border min-w-[250px] z-[6]">
                   Service
                 </th>
                 {matrixData.regions.map(region => (
                   <th
                     key={region.code}
-                    className="px-2 py-3 text-center text-text-primary font-semibold border-b border-border min-w-[80px]"
+                    className="px-2 py-3 text-center text-text-light-primary dark:text-text-primary font-semibold border-b border-border-light dark:border-border min-w-[80px]"
                     title={region.name}
                   >
                     <div className="text-xs">{region.code}</div>
@@ -171,18 +171,18 @@ function Coverage() {
               {filteredServices.map((service, idx) => (
                 <tr
                   key={service.code}
-                  className={idx % 2 === 0 ? 'bg-bg-secondary' : 'bg-bg-primary'}
+                  className={idx % 2 === 0 ? 'bg-bg-light-secondary dark:bg-bg-secondary' : 'bg-bg-light-primary dark:bg-bg-primary'}
                 >
-                  <td className="sticky left-0 px-4 py-3 border-r border-border font-medium text-text-primary bg-inherit">
+                  <td className="sticky left-0 px-4 py-3 border-r border-border-light dark:border-border font-medium text-text-light-primary dark:text-text-primary bg-inherit z-[4]">
                     <div className="text-sm">{service.name}</div>
-                    <div className="text-xs text-text-secondary font-mono">{service.code}</div>
+                    <div className="text-xs text-text-light-secondary dark:text-text-secondary font-mono">{service.code}</div>
                   </td>
                   {matrixData.regions.map(region => {
                     const isAvailable = matrixData.matrix[service.code]?.[region.code];
                     return (
                       <td
                         key={region.code}
-                        className="px-2 py-3 text-center border-border"
+                        className="px-2 py-3 text-center border-border-light dark:border-border"
                       >
                         {isAvailable ? (
                           <span className="text-green-500 text-lg" title="Available">✓</span>
@@ -199,7 +199,7 @@ function Coverage() {
         </div>
       </div>
 
-      <div className="mt-4 text-sm text-text-secondary">
+      <div className="mt-4 text-sm text-text-light-secondary dark:text-text-secondary">
         <span className="text-green-500">✓</span> Available • <span className="text-red-500">✗</span> Not Available
       </div>
     </Container>

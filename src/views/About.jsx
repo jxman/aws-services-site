@@ -5,13 +5,13 @@ function About() {
   return (
     <Container>
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-text-primary mb-6">
+        <h1 className="text-3xl font-bold text-text-light-primary dark:text-text-primary mb-6">
           About AWS Services Dashboard
         </h1>
 
-        <div className="space-y-6 text-text-secondary">
-          <section className="bg-bg-secondary rounded-lg p-6 border border-border">
-            <h2 className="text-xl font-semibold text-text-primary mb-4">
+        <div className="space-y-6 text-text-light-secondary dark:text-text-secondary">
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
               What is this?
             </h2>
             <p className="mb-4">
@@ -27,8 +27,8 @@ function About() {
             </p>
           </section>
 
-          <section className="bg-bg-secondary rounded-lg p-6 border border-border">
-            <h2 className="text-xl font-semibold text-text-primary mb-4">
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
               Data Source
             </h2>
             <p className="mb-4">
@@ -89,13 +89,13 @@ function About() {
             </div>
           </section>
 
-          <section className="bg-bg-secondary rounded-lg p-6 border border-border">
-            <h2 className="text-xl font-semibold text-text-primary mb-4">
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
               Technology Stack
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h3 className="font-semibold text-text-primary mb-2">
+                <h3 className="font-semibold text-text-light-primary dark:text-text-primary mb-2">
                   Frontend
                 </h3>
                 <ul className="space-y-1 text-sm">
@@ -107,7 +107,7 @@ function About() {
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-text-primary mb-2">
+                <h3 className="font-semibold text-text-light-primary dark:text-text-primary mb-2">
                   Infrastructure
                 </h3>
                 <ul className="space-y-1 text-sm">
@@ -121,8 +121,8 @@ function About() {
             </div>
           </section>
 
-          <section className="bg-bg-secondary rounded-lg p-6 border border-border">
-            <h2 className="text-xl font-semibold text-text-primary mb-4">
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
               Features
             </h2>
             <ul className="space-y-2">

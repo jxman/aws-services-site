@@ -8,7 +8,7 @@ function Loading({ message = 'Loading AWS infrastructure data...' }) {
         </div>
 
         {/* Message */}
-        <p className="text-text-secondary text-lg">
+        <p className="text-text-light-secondary dark:text-text-secondary text-lg">
           {message}
         </p>
       </div>

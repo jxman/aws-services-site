@@ -5,7 +5,7 @@ function StatCard({ title, value, description, icon, trend, to }) {
   const content = (
     <>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-text-secondary text-sm font-medium uppercase tracking-wide">
+        <h3 className="text-text-light-secondary dark:text-text-secondary text-sm font-medium uppercase tracking-wide">
           {title}
         </h3>
         {icon && (
@@ -16,13 +16,13 @@ function StatCard({ title, value, description, icon, trend, to }) {
       </div>
 
       <div className="mb-2">
-        <div className="text-4xl font-bold text-text-primary">
+        <div className="text-4xl font-bold text-text-light-primary dark:text-text-primary">
           {typeof value === 'number' ? formatNumber(value) : value}
         </div>
       </div>
 
       {description && (
-        <p className="text-text-secondary text-sm">
+        <p className="text-text-light-secondary dark:text-text-secondary text-sm">
           {description}
         </p>
       )}
@@ -42,7 +42,7 @@ function StatCard({ title, value, description, icon, trend, to }) {
           <span className={trend.direction === 'up' ? 'text-status-success' : 'text-status-error'}>
             {trend.value}
           </span>
-          <span className="text-text-secondary ml-2">{trend.label}</span>
+          <span className="text-text-light-secondary dark:text-text-secondary ml-2">{trend.label}</span>
         </div>
       )}
     </>
@@ -52,7 +52,7 @@ function StatCard({ title, value, description, icon, trend, to }) {
     return (
       <Link
         to={to}
-        className="block bg-bg-secondary rounded-lg p-6 border border-border hover:border-primary transition-colors cursor-pointer group"
+        className="block bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border hover:border-primary transition-colors cursor-pointer group"
       >
         {content}
         <div className="mt-4 flex items-center text-primary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
@@ -66,7 +66,7 @@ function StatCard({ title, value, description, icon, trend, to }) {
   }
 
   return (
-    <div className="bg-bg-secondary rounded-lg p-6 border border-border hover:border-primary transition-colors">
+    <div className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border hover:border-primary transition-colors">
       {content}
     </div>
   );

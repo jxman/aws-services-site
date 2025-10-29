@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class', // Enable class-based dark mode
   theme: {
     extend: {
       colors: {
@@ -13,6 +14,7 @@ export default {
           dark: '#EC7211',
           light: '#FFAC31',
         },
+        // Dark mode colors
         bg: {
           primary: '#0F1419',
           secondary: '#1A1F2E',
@@ -23,6 +25,17 @@ export default {
           secondary: '#9CA3AF',
         },
         border: '#374151',
+        // Light mode colors
+        'bg-light': {
+          primary: '#F9FAFB',
+          secondary: '#FFFFFF',
+          tertiary: '#F3F4F6',
+        },
+        'text-light': {
+          primary: '#111827',
+          secondary: '#6B7280',
+        },
+        'border-light': '#E5E7EB',
         status: {
           success: '#10B981',
           warning: '#F59E0B',
