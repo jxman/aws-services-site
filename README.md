@@ -4,7 +4,7 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.1.0-blue)
+![Version](https://img.shields.io/badge/version-2.2.0-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
 ![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
@@ -45,6 +45,12 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 ---
 
 ## ✨ Features
+
+### 🎨 User Interface
+- **Light/Dark Mode**: Toggle between light and dark themes with one click
+- **Theme Persistence**: Your theme preference is saved automatically
+- **Mobile Navigation**: Responsive hamburger menu for seamless mobile experience
+- **Accessible Design**: Keyboard shortcuts and ARIA labels for screen readers
 
 ### 📊 Dashboard
 - **Key Metrics**: Total regions, services, and service mappings
@@ -94,11 +100,11 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 ### Frontend
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| **React** | 18.3.1 | UI framework |
+| **React** | 18.3.1 | UI framework with Context API for theme management |
 | **Vite** | 5.3.1 | Build tool and dev server (10-100x faster than CRA) |
 | **React Router** | 7.9.4 | Client-side routing |
 | **TanStack Query** | 5.90.5 | Data fetching, caching, and synchronization |
-| **Tailwind CSS** | 3.4.18 | Utility-first CSS framework |
+| **Tailwind CSS** | 3.4.18 | Utility-first CSS framework with dark mode support |
 | **Headless UI** | 2.2.9 | Accessible UI components |
 | **Recharts** | 3.3.0 | React-based charting library |
 | **date-fns** | 4.1.0 | Date formatting and manipulation |
@@ -181,6 +187,9 @@ aws-services-site/
 │   │   ├── Reports.jsx     # Report center with exports
 │   │   └── About.jsx       # About page and documentation
 │   │
+│   ├── contexts/           # React Context providers
+│   │   └── ThemeContext.jsx # Theme state management and persistence
+│   │
 │   ├── hooks/              # Custom React hooks
 │   │   └── useAWSData.js   # Data fetching and caching
 │   │
@@ -195,7 +204,7 @@ aws-services-site/
 │   ├── styles/             # Global styles
 │   │   └── index.css       # Tailwind imports and custom CSS
 │   │
-│   ├── App.jsx             # Root component with routing
+│   ├── App.jsx             # Root component with routing and ThemeProvider
 │   └── main.jsx            # Application entry point
 │
 ├── docs/                   # Documentation
@@ -365,21 +374,33 @@ https://aws-services.synepho.com/reports/aws-service-report-latest.xlsx
 --primary-dark: #ec7211;
 --primary-light: #ffac31;
 
-/* Background Colors */
+/* Dark Mode Colors */
 --bg-primary: #0f1419;     /* Dark background */
 --bg-secondary: #1a1f2e;   /* Card backgrounds */
 --bg-tertiary: #232936;    /* Hover states */
-
-/* Text Colors */
 --text-primary: #ffffff;
 --text-secondary: #9ca3af;
 --border: #374151;
+
+/* Light Mode Colors */
+--bg-light-primary: #f9fafb;     /* Light background */
+--bg-light-secondary: #ffffff;   /* Card backgrounds */
+--bg-light-tertiary: #f3f4f6;    /* Hover states */
+--text-light-primary: #111827;
+--text-light-secondary: #6b7280;
+--border-light: #e5e7eb;
 
 /* Status Colors */
 --success: #10b981;        /* Available/High coverage */
 --warning: #f59e0b;        /* Partial coverage */
 --error: #ef4444;          /* Unavailable/Low coverage */
 ```
+
+### Theme System
+- **Default**: Dark mode (preserves original design)
+- **Toggle**: Sun/Moon icon button in header
+- **Persistence**: Theme preference saved to localStorage
+- **Responsive**: All components support both light and dark modes
 
 ### Typography
 - **Headings**: Inter (700)
@@ -529,6 +550,21 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### October 29, 2025 - Light/Dark Mode & Mobile Navigation
+- ✅ **Light/Dark mode toggle** - One-click theme switching with sun/moon icons
+- ✅ **Theme persistence** - User preference saved to localStorage
+- ✅ **Mobile hamburger menu** - Responsive navigation for mobile devices
+- ✅ **Complete theme support** - All 18 components updated with light/dark variants
+- ✅ **Preserved dark mode** - Original dark mode colors maintained exactly
+- ✅ **Accessible design** - ARIA labels and keyboard navigation support
+- ✅ **Mobile improvements** - Full site title visible on all screen sizes
+- **Files affected**: All components, views, `ThemeContext.jsx`, `tailwind.config.js`, `index.css`
+- **New features**:
+  - ThemeContext for global state management
+  - Mobile-responsive hamburger menu with auto-close
+  - Light mode color palette in Tailwind config
+  - Hover states working in both themes
+
 ### October 24, 2025 - Dynamic Region Name Refactoring
 - ✅ **Removed hardcoded region names** from `src/utils/constants.js` (43 lines eliminated)
 - ✅ **Refactored to use API data** - Region names now sourced directly from backend
@@ -539,6 +575,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: October 24, 2025
-**Version**: 2.1.0
+**Last Updated**: October 29, 2025
+**Version**: 2.2.0
 **Status**: ✅ Production
