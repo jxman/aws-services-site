@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAWSData } from '../hooks/useAWSData';
 import { calculateStats } from '../utils/calculations';
 import { formatRelativeTime } from '../utils/formatters';
@@ -5,6 +6,7 @@ import Container from '../components/layout/Container';
 import StatCard from '../components/common/StatCard';
 import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
+import WhatsNewPreview from '../components/dashboard/WhatsNewPreview';
 
 function Dashboard() {
   const { data, isLoading, error, refetch } = useAWSData();
@@ -90,41 +92,8 @@ function Dashboard() {
 
       {/* Content Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Data Source Info */}
-        <div className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
-          <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
-            Data Source
-          </h2>
-          <div className="space-y-3 text-text-light-secondary dark:text-text-secondary">
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div>
-                <p className="font-medium text-text-light-primary dark:text-text-primary">AWS Systems Manager Parameter Store</p>
-                <p className="text-sm">Authoritative source for AWS infrastructure metadata</p>
-              </div>
-            </div>
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div>
-                <p className="font-medium text-text-light-primary dark:text-text-primary">Daily Updates at 2:00 AM UTC</p>
-                <p className="text-sm">Automated Lambda function fetches latest data</p>
-              </div>
-            </div>
-            <div className="flex items-start">
-              <svg className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <div>
-                <p className="font-medium text-text-light-primary dark:text-text-primary">CloudFront CDN Distribution</p>
-                <p className="text-sm">Global edge caching for fast data access</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* What's New Preview */}
+        <WhatsNewPreview />
 
         {/* Quick Actions */}
         <div className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
@@ -132,8 +101,8 @@ function Dashboard() {
             Quick Actions
           </h2>
           <div className="space-y-3">
-            <a
-              href="/regions"
+            <Link
+              to="/regions"
               className="block p-4 bg-bg-light-tertiary dark:bg-bg-tertiary rounded-lg hover:bg-gray-200 dark:hover:bg-bg-primary border border-border-light dark:border-border hover:border-primary transition-colors"
             >
               <div className="flex items-center justify-between">
@@ -145,10 +114,10 @@ function Dashboard() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
+            </Link>
 
-            <a
-              href="/services"
+            <Link
+              to="/services"
               className="block p-4 bg-bg-light-tertiary dark:bg-bg-tertiary rounded-lg hover:bg-gray-200 dark:hover:bg-bg-primary border border-border-light dark:border-border hover:border-primary transition-colors"
             >
               <div className="flex items-center justify-between">
@@ -160,10 +129,10 @@ function Dashboard() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
+            </Link>
 
-            <a
-              href="/reports"
+            <Link
+              to="/reports"
               className="block p-4 bg-bg-light-tertiary dark:bg-bg-tertiary rounded-lg hover:bg-gray-200 dark:hover:bg-bg-primary border border-border-light dark:border-border hover:border-primary transition-colors"
             >
               <div className="flex items-center justify-between">
@@ -175,7 +144,7 @@ function Dashboard() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
