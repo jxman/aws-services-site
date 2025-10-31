@@ -34,7 +34,7 @@ function WhatsNewPreview() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary flex items-center gap-2">
           <span>📰</span>
-          What's New
+          What&apos;s New
         </h2>
         <Link
           to="/whats-new"
@@ -84,7 +84,7 @@ function WhatsNewPreview() {
             to="/whats-new"
             className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition-colors"
           >
-            View What's New Page
+            View What&apos;s New Page
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

@@ -38,7 +38,7 @@ function StatisticsSummary({ infrastructureData, announcementsData }) {
           {announcementsData?.metadata?.count || 0}
         </div>
         <div className="text-xs text-text-light-secondary dark:text-text-secondary mt-1">
-          From AWS What's New
+          From AWS What&apos;s New
         </div>
       </div>
 

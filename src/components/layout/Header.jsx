@@ -50,7 +50,7 @@ function Header() {
               to="/whats-new"
               className="text-text-light-secondary dark:text-text-secondary hover:text-primary dark:hover:text-primary transition-colors font-medium"
             >
-              What's New
+              What&apos;s New
             </Link>
             <Link
               to="/about"
@@ -200,7 +200,7 @@ function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-text-light-secondary dark:text-text-secondary hover:text-primary dark:hover:text-primary transition-colors font-medium px-2 py-1"
               >
-                What's New
+                What&apos;s New
               </Link>
               <Link
                 to="/about"

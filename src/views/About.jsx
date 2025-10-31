@@ -15,10 +15,10 @@ function About() {
               Why I Built This
             </h2>
             <p className="mb-4">
-              As a cloud architect, I constantly needed to answer: <strong>"Which AWS services are available in which regions?"</strong> Traditionally, this required countless searches and site lookups across multiple tabs. What I really needed was <strong>the data in an Excel spreadsheet</strong> for quick review and strategic planning.
+              As a cloud architect, I constantly needed to answer: <strong>&ldquo;Which AWS services are available in which regions?&rdquo;</strong> Traditionally, this required countless searches and site lookups across multiple tabs. What I really needed was <strong>the data in an Excel spreadsheet</strong> for quick review and strategic planning.
             </p>
             <p className="mb-4">
-              So I built this tool and I'm sharing it with the community. Whether you're designing multi-region applications, planning disaster recovery, or exploring AWS service coverage, I hope you find it helpful in your cloud development journey.
+              So I built this tool and I&apos;m sharing it with the community. Whether you&apos;re designing multi-region applications, planning disaster recovery, or exploring AWS service coverage, I hope you find it helpful in your cloud development journey.
             </p>
             <p className="text-sm">
               If you find this useful, consider <a href="https://www.buymeacoffee.com/synepho" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">buying me a coffee</a> to support my efforts in keeping this tool updated and building more cloud developer resources.

@@ -4,7 +4,7 @@ function WhatsNewHeader({ searchQuery, onSearchChange }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl font-bold text-text-light-primary dark:text-text-primary">
-            What's New with AWS
+            What&apos;s New with AWS
           </h1>
           <p className="mt-2 text-text-light-secondary dark:text-text-secondary">
             Track AWS infrastructure changes and latest product announcements

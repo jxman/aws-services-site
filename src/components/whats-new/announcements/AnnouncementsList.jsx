@@ -20,7 +20,7 @@ function AnnouncementsList({ announcements, searchQuery, scrollContainerRef }) {
   }, [announcements, searchQuery]);
 
   // Reset to page 1 when search query changes
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
