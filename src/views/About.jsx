@@ -1,36 +1,7 @@
-import { useEffect } from 'react';
 import Container from "../components/layout/Container";
 import { DATA_SOURCE } from "../config/aws-config";
 
 function About() {
-  useEffect(() => {
-    // Load Buy Me a Coffee button script
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js';
-    script.setAttribute('data-name', 'bmc-button');
-    script.setAttribute('data-slug', 'synepho');
-    script.setAttribute('data-color', '#FFDD00');
-    script.setAttribute('data-emoji', '☕');
-    script.setAttribute('data-font', 'Cookie');
-    script.setAttribute('data-text', 'Buy me a coffee');
-    script.setAttribute('data-outline-color', '#000000');
-    script.setAttribute('data-font-color', '#000000');
-    script.setAttribute('data-coffee-color', '#ffffff');
-    script.async = true;
-
-    const buttonContainer = document.getElementById('bmc-button-container');
-    if (buttonContainer) {
-      buttonContainer.appendChild(script);
-    }
-
-    return () => {
-      // Cleanup script on unmount
-      if (buttonContainer && buttonContainer.contains(script)) {
-        buttonContainer.removeChild(script);
-      }
-    };
-  }, []);
-
   return (
     <Container>
       <div className="max-w-4xl mx-auto">
@@ -278,7 +249,17 @@ function About() {
             <p className="mb-4">
               If you find this dashboard helpful in your cloud architecture work and feel like acknowledging my development and hosting efforts, consider buying me a cup of coffee. Your support goes a long way to inspire continued updates, new features, and the development of other cloud developer tools.
             </p>
-            <div id="bmc-button-container" className="flex justify-center mt-6"></div>
+            <div className="flex justify-center mt-6">
+              <a
+                href="https://www.buymeacoffee.com/synepho"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 bg-[#FFDD00] hover:bg-[#FFED4E] text-gray-900 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 border-2 border-gray-900"
+              >
+                <span className="text-2xl mr-2">☕</span>
+                <span>Buy me a coffee</span>
+              </a>
+            </div>
           </section>
         </div>
       </div>
