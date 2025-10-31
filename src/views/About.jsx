@@ -15,16 +15,10 @@ function About() {
               Why I Built This
             </h2>
             <p className="mb-4">
-              As a cloud architect, I found myself constantly needing to answer a seemingly simple question during the design and planning phase: <strong>"Which AWS services are available in which regions?"</strong>
-            </p>
-            <p className="mb-4">
-              In today's ever-growing AWS Cloud landscape, this information is critical for making informed decisions about regional deployments, disaster recovery strategies, and multi-region architectures. Yet traditionally, this effort required countless searches, multiple site lookups, and manually piecing together information from various sources.
-            </p>
-            <p className="mb-4">
-              What I really needed was simple: <strong>the data in an Excel spreadsheet</strong> where I could quickly review services, compare regions, and make strategic deployment decisions without jumping between multiple tabs and documentation pages.
+              As a cloud architect, I constantly needed to answer: <strong>"Which AWS services are available in which regions?"</strong> Traditionally, this required countless searches and site lookups across multiple tabs. What I really needed was <strong>the data in an Excel spreadsheet</strong> for quick review and strategic planning.
             </p>
             <p>
-              So I built this tool. And now I'm sharing it with the wider community, hoping that others find it useful in their day-to-day cloud architecture efforts and cloud development journey. Whether you're designing multi-region applications, planning disaster recovery strategies, or simply exploring AWS service coverage, this dashboard is here to help.
+              So I built this tool and I'm sharing it with the community. Whether you're designing multi-region applications, planning disaster recovery, or exploring AWS service coverage, I hope you find it helpful in your cloud development journey.
             </p>
           </section>
 
