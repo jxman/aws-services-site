@@ -1,7 +1,36 @@
+import { useEffect } from 'react';
 import Container from "../components/layout/Container";
 import { DATA_SOURCE } from "../config/aws-config";
 
 function About() {
+  useEffect(() => {
+    // Load Buy Me a Coffee button script
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js';
+    script.setAttribute('data-name', 'bmc-button');
+    script.setAttribute('data-slug', 'synepho');
+    script.setAttribute('data-color', '#FFDD00');
+    script.setAttribute('data-emoji', '☕');
+    script.setAttribute('data-font', 'Cookie');
+    script.setAttribute('data-text', 'Buy me a coffee');
+    script.setAttribute('data-outline-color', '#000000');
+    script.setAttribute('data-font-color', '#000000');
+    script.setAttribute('data-coffee-color', '#ffffff');
+    script.async = true;
+
+    const buttonContainer = document.getElementById('bmc-button-container');
+    if (buttonContainer) {
+      buttonContainer.appendChild(script);
+    }
+
+    return () => {
+      // Cleanup script on unmount
+      if (buttonContainer && buttonContainer.contains(script)) {
+        buttonContainer.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
     <Container>
       <div className="max-w-4xl mx-auto">
@@ -10,6 +39,24 @@ function About() {
         </h1>
 
         <div className="space-y-6 text-text-light-secondary dark:text-text-secondary">
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
+              Why I Built This
+            </h2>
+            <p className="mb-4">
+              As a cloud architect, I found myself constantly needing to answer a seemingly simple question during the design and planning phase: <strong>"Which AWS services are available in which regions?"</strong>
+            </p>
+            <p className="mb-4">
+              In today's ever-growing AWS Cloud landscape, this information is critical for making informed decisions about regional deployments, disaster recovery strategies, and multi-region architectures. Yet traditionally, this effort required countless searches, multiple site lookups, and manually piecing together information from various sources.
+            </p>
+            <p className="mb-4">
+              What I really needed was simple: <strong>the data in an Excel spreadsheet</strong> where I could quickly review services, compare regions, and make strategic deployment decisions without jumping between multiple tabs and documentation pages.
+            </p>
+            <p>
+              So I built this tool. And now I'm sharing it with the wider community, hoping that others find it useful in their day-to-day cloud architecture efforts and cloud development journey. Whether you're designing multi-region applications, planning disaster recovery strategies, or simply exploring AWS service coverage, this dashboard is here to help.
+            </p>
+          </section>
+
           <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
             <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
               What is this?
@@ -222,6 +269,16 @@ function About() {
                 </span>
               </li>
             </ul>
+          </section>
+
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
+              Support This Project
+            </h2>
+            <p className="mb-4">
+              If you find this dashboard helpful in your cloud architecture work and feel like acknowledging my development and hosting efforts, consider buying me a cup of coffee. Your support goes a long way to inspire continued updates, new features, and the development of other cloud developer tools.
+            </p>
+            <div id="bmc-button-container" className="flex justify-center mt-6"></div>
           </section>
         </div>
       </div>
