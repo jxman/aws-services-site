@@ -126,3 +126,37 @@ export function getIconClasses(iconColor) {
 
   return colorMap[iconColor] || colorMap.blue;
 }
+
+/**
+ * Count total individual changes across all changelog entries
+ * Each line item displayed = 1 count (new service, regional expansion per service, new region)
+ * @param {Array} changeLog - Array of change entries
+ * @returns {number} Total count of individual change items
+ */
+export function countTotalChanges(changeLog) {
+  if (!changeLog || changeLog.length === 0) return 0;
+
+  return changeLog.reduce((total, entry) => {
+    const changes = entry.changes;
+    let entryCount = 0;
+
+    // Count new services (1 per service)
+    if (changes.newServices && changes.newServices.length > 0) {
+      entryCount += changes.newServices.length;
+    }
+
+    // Count regional expansions (1 per service, not per region)
+    // Group by service code to match display logic
+    if (changes.newRegionalServices && changes.newRegionalServices.length > 0) {
+      const uniqueServices = new Set(changes.newRegionalServices.map(item => item.service));
+      entryCount += uniqueServices.size;
+    }
+
+    // Count new regions (1 per region)
+    if (changes.newRegions && changes.newRegions.length > 0) {
+      entryCount += changes.newRegions.length;
+    }
+
+    return total + entryCount;
+  }, 0);
+}

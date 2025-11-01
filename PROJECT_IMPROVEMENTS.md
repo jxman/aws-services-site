@@ -6,6 +6,37 @@
 
 ---
 
+## 📝 Recent Updates
+
+### November 1, 2025 - UX Bug Fix: Recent Changes Count
+**Status:** ✅ COMPLETED
+**Type:** Bug Fix
+**Impact:** User Experience
+
+**Problem:**
+- "Recent Changes" displayed "4 total" but showed 9+ individual change items
+- Count represented changelog entries (snapshots) instead of actual displayed items
+- Caused user confusion about what the number meant
+- Mobile version had the same issue
+
+**Solution:**
+- Added `countTotalChanges()` helper function to count individual change items
+- Updated both desktop and mobile views to show accurate counts
+- Each line displayed = 1 count (new service, regional expansion, or new region)
+- Regional expansions grouped by service (matching display logic)
+
+**Files Modified:**
+- `src/utils/whatsNewHelpers.js` - Added counting function
+- `src/components/whats-new/ContentContainer.jsx` - Updated desktop count logic
+- `src/views/WhatsNew.jsx` - Updated mobile tab count logic
+
+**Result:**
+- Count now matches visual display exactly
+- Consistent counting across desktop and mobile
+- Improved user clarity and trust in the interface
+
+---
+
 ## 🎯 Executive Summary
 
 The AWS Services Dashboard is **production-ready** with excellent architecture, documentation, and code quality. However, there are critical gaps in automated testing and CI/CD that should be addressed.

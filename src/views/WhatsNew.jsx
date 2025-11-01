@@ -5,6 +5,7 @@ import { useServiceNames } from '../hooks/useAWSData';
 import WhatsNewHeader from '../components/whats-new/WhatsNewHeader';
 import ContentContainer from '../components/whats-new/ContentContainer';
 import MobileTabNavigation from '../components/whats-new/MobileTabNavigation';
+import { countTotalChanges } from '../utils/whatsNewHelpers';
 
 function WhatsNew() {
   const [activeTab, setActiveTab] = useState('infrastructure');
@@ -24,19 +25,24 @@ function WhatsNew() {
 
   // Calculate filtered counts for mobile tabs
   const filteredInfraCount = useMemo(() => {
-    if (!searchQuery || !infrastructureData?.changeLog) {
-      return infrastructureData?.changeLog?.length || 0;
+    if (!infrastructureData?.changeLog) return 0;
+
+    if (!searchQuery) {
+      // No search - count all individual changes across all entries
+      return countTotalChanges(infrastructureData.changeLog);
     }
 
+    // With search - count individual changes in filtered entries only
     const query = searchQuery.toLowerCase();
-    return infrastructureData.changeLog.filter((entry) => {
+    const filteredEntries = infrastructureData.changeLog.filter((entry) => {
       const dateMatch = entry.date.toLowerCase().includes(query);
       const summaryMatch = entry.summary.toLowerCase().includes(query);
       const servicesMatch = entry.changes.newServices?.some((s) =>
         s.name.toLowerCase().includes(query) || s.code.toLowerCase().includes(query)
       );
       return dateMatch || summaryMatch || servicesMatch;
-    }).length;
+    });
+    return countTotalChanges(filteredEntries);
   }, [infrastructureData, searchQuery]);
 
   const filteredAnnouncementsCount = useMemo(() => {

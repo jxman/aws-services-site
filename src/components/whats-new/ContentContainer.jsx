@@ -1,24 +1,30 @@
 import { useMemo, useRef } from 'react';
 import TimelineView from './infrastructure/TimelineView';
 import AnnouncementsList from './announcements/AnnouncementsList';
+import { countTotalChanges } from '../../utils/whatsNewHelpers';
 
 function ContentContainer({ infrastructureData, announcementsData, searchQuery, activeTab }) {
   const announcementsScrollRef = useRef(null);
   // Calculate filtered counts for search result display
   const filteredInfraCount = useMemo(() => {
-    if (!searchQuery || !infrastructureData?.changeLog) {
-      return infrastructureData?.changeLog?.length || 0;
+    if (!infrastructureData?.changeLog) return 0;
+
+    if (!searchQuery) {
+      // No search - count all individual changes across all entries
+      return countTotalChanges(infrastructureData.changeLog);
     }
 
+    // With search - count individual changes in filtered entries only
     const query = searchQuery.toLowerCase();
-    return infrastructureData.changeLog.filter((entry) => {
+    const filteredEntries = infrastructureData.changeLog.filter((entry) => {
       const dateMatch = entry.date.toLowerCase().includes(query);
       const summaryMatch = entry.summary.toLowerCase().includes(query);
       const servicesMatch = entry.changes.newServices?.some((s) =>
         s.name.toLowerCase().includes(query) || s.code.toLowerCase().includes(query)
       );
       return dateMatch || summaryMatch || servicesMatch;
-    }).length;
+    });
+    return countTotalChanges(filteredEntries);
   }, [infrastructureData, searchQuery]);
 
   const filteredAnnouncementsCount = useMemo(() => {
@@ -37,7 +43,11 @@ function ContentContainer({ infrastructureData, announcementsData, searchQuery, 
     }).length;
   }, [announcementsData, searchQuery]);
 
-  const totalInfraCount = infrastructureData?.changeLog?.length || 0;
+  // Total counts (used when not searching)
+  const totalInfraCount = useMemo(() => {
+    return countTotalChanges(infrastructureData?.changeLog || []);
+  }, [infrastructureData]);
+
   const totalAnnouncementsCount = announcementsData?.announcements?.length || 0;
 
   return (
