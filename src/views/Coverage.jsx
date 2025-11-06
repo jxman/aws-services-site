@@ -20,7 +20,7 @@ function Coverage() {
 
     const servicesByRegion = data.servicesByRegion?.byRegion || {};
 
-    const nameMap = {};
+    const nameMap = Object.create(null);
     serviceNamesData.forEach(service => {
       nameMap[service.code] = service.name;
     });
@@ -30,9 +30,9 @@ function Coverage() {
       name: nameMap[serviceCode] || serviceCode,
     }));
 
-    const matrix = {};
+    const matrix = Object.create(null);
     services.forEach(service => {
-      matrix[service.code] = {};
+      matrix[service.code] = Object.create(null);
       regions.forEach(region => {
         const regionServices = servicesByRegion[region.code]?.services || [];
         matrix[service.code][region.code] = regionServices.includes(service.code);
@@ -85,9 +85,8 @@ function Coverage() {
     const link = document.createElement('a');
     link.href = url;
     link.download = `aws-coverage-matrix-${new Date().toISOString().split('T')[0]}.csv`;
-    document.body.appendChild(link);
+    link.style.display = 'none';
     link.click();
-    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 

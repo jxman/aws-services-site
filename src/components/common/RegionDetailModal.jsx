@@ -9,7 +9,7 @@ function RegionDetailModal({ isOpen, onClose, region, services }) {
   if (!region) return null;
 
   const exportToCSV = () => {
-    const nameMap = {};
+    const nameMap = Object.create(null);
     if (serviceNamesData) {
       serviceNamesData.forEach(service => {
         nameMap[service.code] = service.name;
@@ -53,13 +53,12 @@ function RegionDetailModal({ isOpen, onClose, region, services }) {
     const link = document.createElement('a');
     link.href = url;
     link.download = `${region.code}-services-${new Date().toISOString().split('T')[0]}.csv`;
-    document.body.appendChild(link);
+    link.style.display = 'none';
     link.click();
-    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  const nameMap = {};
+  const nameMap = Object.create(null);
   if (serviceNamesData) {
     serviceNamesData.forEach(service => {
       nameMap[service.code] = service.name;

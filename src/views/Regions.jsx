@@ -97,9 +97,8 @@ function Regions() {
     const link = document.createElement('a');
     link.href = url;
     link.download = `aws-regions-${new Date().toISOString().split('T')[0]}.csv`;
-    document.body.appendChild(link);
+    link.style.display = 'none';
     link.click();
-    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
