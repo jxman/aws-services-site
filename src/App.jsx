@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/layout/Layout';
 import ScrollToTop from './components/common/ScrollToTop';
+import CanonicalTag from './components/common/CanonicalTag';
 import Dashboard from './views/Dashboard';
 import About from './views/About';
 import Regions from './views/Regions';
@@ -30,6 +31,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <ScrollToTop />
+          <CanonicalTag />
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
