@@ -81,8 +81,8 @@ function Footer() {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-border-light dark:border-border">
           <p className="text-center text-text-light-secondary dark:text-text-secondary text-sm">
-            © {currentYear} AWS Services Dashboard. Data sourced from AWS
-            Systems Manager Parameter Store.
+            © {currentYear} AWS Services Dashboard by Synepho. Data from AWS Systems Manager Parameter Store.
+            Not affiliated with AWS, Inc.
           </p>
         </div>
       </div>

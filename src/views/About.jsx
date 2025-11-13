@@ -12,6 +12,21 @@ function About() {
         <div className="space-y-6 text-text-light-secondary dark:text-text-secondary">
           <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
             <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
+              About the Creator
+            </h2>
+            <p className="mb-4">
+              Hi, I&apos;m <strong>John Xanthopoulos</strong>, the founder of <a href="https://synepho.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Synepho</a>. By day, I&apos;m an IT Executive driving Cloud strategy at a Fortune 500 and leading a talented team of Global Cloud Engineers. On weekends and evenings, I&apos;m a hands-on developer building tools that solve real-world cloud architecture challenges.
+            </p>
+            <p className="mb-4">
+              With over 20 years in IT leadership and a passion for cloud technologies (especially AWS), I specialize in building high-performing systems, teams, and processes. <strong>Synepho</strong> (a phonetic adaptation of the Greek word for &ldquo;cloud&rdquo;) reflects my commitment to cloud computing and helping organizations leverage modern cloud solutions.
+            </p>
+            <p className="mb-4">
+              Learn more about my work at <a href="https://synepho.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">synepho.com</a>.
+            </p>
+          </section>
+
+          <section className="bg-bg-light-secondary dark:bg-bg-secondary rounded-lg p-6 border border-border-light dark:border-border">
+            <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-primary mb-4">
               Why I Built This
             </h2>
             <p className="mb-4">

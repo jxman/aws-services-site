@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { usePageTracking } from './hooks/usePageTracking';
 import Layout from './components/layout/Layout';
 import ScrollToTop from './components/common/ScrollToTop';
 import CanonicalTag from './components/common/CanonicalTag';
@@ -25,24 +26,35 @@ const queryClient = new QueryClient({
   },
 });
 
+// Internal component to use hooks that depend on Router context
+function AppContent() {
+  usePageTracking(); // Automatically track all page views
+
+  return (
+    <>
+      <ScrollToTop />
+      <CanonicalTag />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/regions" element={<Regions />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/coverage" element={<Coverage />} />
+          <Route path="/whats-new" element={<WhatsNew />} />
+          <Route path="/reports" element={<Reports />} />
+        </Routes>
+      </Layout>
+    </>
+  );
+}
+
 function App() {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <Router>
-          <ScrollToTop />
-          <CanonicalTag />
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/regions" element={<Regions />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/coverage" element={<Coverage />} />
-              <Route path="/whats-new" element={<WhatsNew />} />
-              <Route path="/reports" element={<Reports />} />
-            </Routes>
-          </Layout>
+          <AppContent />
         </Router>
       </QueryClientProvider>
     </ThemeProvider>

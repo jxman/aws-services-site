@@ -4,7 +4,7 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.2.0-blue)
+![Version](https://img.shields.io/badge/version-2.3.0-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
 ![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
@@ -191,9 +191,11 @@ aws-services-site/
 │   │   └── ThemeContext.jsx # Theme state management and persistence
 │   │
 │   ├── hooks/              # Custom React hooks
-│   │   └── useAWSData.js   # Data fetching and caching
+│   │   ├── useAWSData.js   # Data fetching and caching
+│   │   └── usePageTracking.js # Google Analytics page tracking
 │   │
 │   ├── utils/              # Helper functions
+│   │   ├── analytics.js    # Google Analytics tracking functions
 │   │   ├── calculations.js # Coverage and statistics calculations
 │   │   ├── formatters.js   # Number, date, percentage formatting
 │   │   └── constants.js    # Coverage colors and chart constants
@@ -550,6 +552,23 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### January 13, 2025 - Google Analytics & About Page Updates
+- ✅ **Google Analytics Integration** - Implemented comprehensive page tracking
+  - Centralized analytics utility (`src/utils/analytics.js`)
+  - Custom hook for automatic page view tracking (`src/hooks/usePageTracking.js`)
+  - Tracks all current and future routes automatically
+  - Captures page paths, query parameters, and titles
+- ✅ **About Page Enhancements** - Added creator information and branding
+  - New "About the Creator" section with John Xanthopoulos bio
+  - Links to Synepho.com for more information
+  - Professional background and expertise highlighted
+  - Improved page structure and flow
+- ✅ **Footer Copyright Update** - Enhanced legal and branding information
+  - Added "by Synepho" attribution
+  - Included AWS disclaimer: "Not affiliated with AWS, Inc."
+  - More concise data source reference
+- **Files affected**: `App.jsx`, `About.jsx`, `Footer.jsx`, `src/utils/analytics.js`, `src/hooks/usePageTracking.js`
+
 ### October 29, 2025 - Light/Dark Mode & Mobile Navigation
 - ✅ **Light/Dark mode toggle** - One-click theme switching with sun/moon icons
 - ✅ **Theme persistence** - User preference saved to localStorage
@@ -575,6 +594,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: October 29, 2025
-**Version**: 2.2.0
+**Last Updated**: January 13, 2025
+**Version**: 2.3.0
 **Status**: ✅ Production
