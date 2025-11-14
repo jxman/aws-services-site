@@ -26,7 +26,7 @@ function About() {
 
               {/* Profile Picture - Float Left */}
               <img
-                src="https://github.com/jxman.png"
+                src="/profile.png"
                 alt="John Xanthopoulos"
                 className="w-20 h-20 rounded-full border-3 border-primary shadow-lg float-left mr-4 mb-2"
               />
