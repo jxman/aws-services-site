@@ -4,7 +4,7 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.3.0-blue)
+![Version](https://img.shields.io/badge/version-2.4.0-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
 ![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
@@ -88,10 +88,13 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Summary Metadata**: All exports include comprehensive metadata headers
 
 ### ℹ️ About Page
-- **Architecture Info**: Details about data sources and infrastructure
-- **Technology Stack**: Complete list of technologies used
-- **Update Schedule**: Information about data refresh cycles
-- **Contact Information**: Links to related projects and documentation
+- **Hero Section**: Centered tagline "Built by a cloud architect, for cloud architects"
+- **About the Creator**: Professional bio with profile picture (text-wrapped layout)
+- **Why I Built This**: Story-driven explanation with visual pain points
+- **Statistics Cards**: Quick stats (38 regions, 394+ services, daily updates)
+- **Features Grid**: Visual feature showcase with emoji icons
+- **Collapsible Tech Stack**: Expandable technology details for developers
+- **Data Source**: Simplified with expandable technical details
 
 ---
 
@@ -173,6 +176,10 @@ npm run preview
 
 ```
 aws-services-site/
+├── public/                 # Static assets
+│   ├── profile.png        # Local profile picture (CSP compliant)
+│   └── sitemap.xml        # SEO sitemap
+│
 ├── src/
 │   ├── components/          # Reusable UI components
 │   │   ├── common/         # Shared components (Loading, Error, Modals)
@@ -185,7 +192,7 @@ aws-services-site/
 │   │   ├── Services.jsx    # Services catalog and search
 │   │   ├── Coverage.jsx    # Service × Region matrix
 │   │   ├── Reports.jsx     # Report center with exports
-│   │   └── About.jsx       # About page and documentation
+│   │   └── About.jsx       # Redesigned About page with hero section
 │   │
 │   ├── contexts/           # React Context providers
 │   │   └── ThemeContext.jsx # Theme state management and persistence
@@ -552,22 +559,37 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### November 14, 2025 - About Page Redesign & CSP Fix
+- ✅ **Complete About Page Redesign** - Modern, professional layout
+  - Hero section with tagline "Built by a cloud architect, for cloud architects"
+  - Side-by-side layout for "About the Creator" and "Why I Built This" on desktop
+  - Text-wrapped profile picture for magazine-style layout
+  - Professional first-person bio (changed from third-person)
+  - Story-driven "Why I Built This" with visual pain points (red X marks)
+  - Statistics cards showing 38 regions, 394+ services, daily updates
+  - Visual features grid with emoji icons (📊 🌍 ⚡ 📑 📱 🔍)
+  - Collapsible Technology Stack section with animated chevron
+  - Simplified Data Source with expandable technical details
+  - Consolidated spacing throughout (reduced from space-y-12 to space-y-6)
+  - Single coffee CTA at end (removed duplicate)
+- ✅ **CSP Compliance Fix** - Resolved Content Security Policy violation
+  - Downloaded GitHub profile picture to `public/profile.png`
+  - Updated image path from external URL to local `/profile.png`
+  - Fixes "Refused to load https://github.com/jxman.png" error
+  - Faster loading (same domain), no external dependencies
+- **Files affected**: `About.jsx`, `public/profile.png`
+
 ### January 13, 2025 - Google Analytics & About Page Updates
 - ✅ **Google Analytics Integration** - Implemented comprehensive page tracking
   - Centralized analytics utility (`src/utils/analytics.js`)
   - Custom hook for automatic page view tracking (`src/hooks/usePageTracking.js`)
   - Tracks all current and future routes automatically
   - Captures page paths, query parameters, and titles
-- ✅ **About Page Enhancements** - Added creator information and branding
-  - New "About the Creator" section with John Xanthopoulos bio
-  - Links to Synepho.com for more information
-  - Professional background and expertise highlighted
-  - Improved page structure and flow
 - ✅ **Footer Copyright Update** - Enhanced legal and branding information
   - Added "by Synepho" attribution
   - Included AWS disclaimer: "Not affiliated with AWS, Inc."
   - More concise data source reference
-- **Files affected**: `App.jsx`, `About.jsx`, `Footer.jsx`, `src/utils/analytics.js`, `src/hooks/usePageTracking.js`
+- **Files affected**: `App.jsx`, `Footer.jsx`, `src/utils/analytics.js`, `src/hooks/usePageTracking.js`
 
 ### October 29, 2025 - Light/Dark Mode & Mobile Navigation
 - ✅ **Light/Dark mode toggle** - One-click theme switching with sun/moon icons
@@ -594,6 +616,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: January 13, 2025
-**Version**: 2.3.0
+**Last Updated**: November 14, 2025
+**Version**: 2.4.0
 **Status**: ✅ Production
