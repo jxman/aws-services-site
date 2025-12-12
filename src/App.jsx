@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { usePageTracking } from './hooks/usePageTracking';
@@ -53,9 +53,7 @@ function App() {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <Router>
-          <AppContent />
-        </Router>
+        <AppContent />
       </QueryClientProvider>
     </ThemeProvider>
   );

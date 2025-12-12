@@ -122,7 +122,7 @@ function ChangeCard({ entry, servicesData }) {
         <>
           {changes.newRegions.map((region) => (
             <div
-              key={region}
+              key={region.code}
               className="flex items-start gap-3 py-2 border-b border-border-light dark:border-border last:border-0"
             >
               <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900">
@@ -132,10 +132,10 @@ function ChangeCard({ entry, servicesData }) {
               </span>
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-medium text-text-light-primary dark:text-text-primary">
-                  New Region Available
+                  {region.name}
                 </div>
                 <div className="text-xs text-text-light-secondary dark:text-text-secondary mt-0.5">
-                  {region}
+                  New region: {region.code}
                 </div>
               </div>
             </div>
