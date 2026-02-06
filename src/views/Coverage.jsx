@@ -3,6 +3,7 @@ import Container from '../components/layout/Container';
 import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
 import { useAWSData, useServiceNames } from '../hooks/useAWSData';
+import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
 
 function Coverage() {
   const { data, isLoading, isError, error, refetch } = useAWSData();
@@ -45,12 +46,10 @@ function Coverage() {
   const filteredServices = useMemo(() => {
     let filtered = matrixData.services;
 
-    if (searchTerm) {
-      const search = searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        service =>
-          service.name.toLowerCase().includes(search) ||
-          service.code.toLowerCase().includes(search)
+    const terms = parseSearchTerms(searchTerm);
+    if (terms.length > 0) {
+      filtered = filtered.filter((service) =>
+        matchesSearchTerms(service, ['name', 'code'], terms)
       );
     }
 
@@ -115,7 +114,8 @@ function Coverage() {
         <div className="flex-1">
           <input
             type="text"
-            placeholder="Search services..."
+            placeholder="Search services (comma-separated)..."
+            maxLength={500}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full px-4 py-2 bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg text-text-light-primary dark:text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary"

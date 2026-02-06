@@ -7,6 +7,7 @@ import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { getCoverageColor } from '../utils/constants';
 import { calculateCoverage } from '../utils/calculations';
 import { formatNumber, formatPercentage } from '../utils/formatters';
+import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
 
 function Services() {
   const { data, isLoading, isError, error, refetch } = useAWSData();
@@ -54,12 +55,10 @@ function Services() {
   const filteredAndSortedServices = useMemo(() => {
     let filtered = servicesData;
 
-    if (searchTerm) {
-      const search = searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        (service) =>
-          service.name.toLowerCase().includes(search) ||
-          service.code.toLowerCase().includes(search)
+    const terms = parseSearchTerms(searchTerm);
+    if (terms.length > 0) {
+      filtered = filtered.filter((service) =>
+        matchesSearchTerms(service, ['name', 'code'], terms)
       );
     }
 
@@ -147,7 +146,8 @@ function Services() {
           <div className="relative">
             <input
               type="text"
-              placeholder="Search services by name or code..."
+              placeholder="Search services (comma-separated, e.g. lambda, s3)..."
+              maxLength={500}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-4 py-2 pl-10 bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg text-text-light-primary dark:text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary"

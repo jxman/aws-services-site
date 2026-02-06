@@ -102,7 +102,8 @@ src/
 │   ├── dataTransform.js    # Parse and reshape AWS data
 │   ├── calculations.js     # Coverage %, statistics
 │   ├── formatters.js       # Number, date, string formatting
-│   └── constants.js        # AWS region names, colors
+│   ├── constants.js        # AWS region names, colors
+│   └── searchUtils.js      # Multi-term search parsing and matching
 │
 ├── config/                 # Configuration
 │   ├── aws-config.js       # Data URLs, API endpoints
@@ -284,7 +285,7 @@ xl: 2rem (32px)
 
 **Filters & Search**:
 
-- 🔍 Search by region code or name
+- 🔍 Multi-term search by region code or name (comma-separated, e.g., `us-, ap-`)
 - 📊 Filter by coverage % (e.g., >80%)
 - 🌍 Filter by continent/geography
 - 📅 Sort by launch year, service count
@@ -355,7 +356,7 @@ xl: 2rem (32px)
 
 **Filters & Search**:
 
-- 🔍 Search by service name or code
+- 🔍 Multi-term search by service name or code (comma-separated, e.g., `lambda, s3`)
 - 📂 Filter by category (Compute, Storage, Database, etc.)
 - 📊 Filter by coverage % (e.g., global services only)
 - 🔤 Sort by name, coverage, region count

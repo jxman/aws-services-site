@@ -1,19 +1,20 @@
 import { useMemo, useState, useEffect } from 'react';
 import AnnouncementCard from './AnnouncementCard';
+import { parseSearchTerms, matchesAnyTerm } from '../../../utils/searchUtils';
 
 function AnnouncementsList({ announcements, searchQuery, scrollContainerRef }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const filteredAnnouncements = useMemo(() => {
-    if (!searchQuery) return announcements;
+    const terms = parseSearchTerms(searchQuery);
+    if (terms.length === 0) return announcements;
 
-    const query = searchQuery.toLowerCase();
     return announcements.filter((announcement) => {
-      const titleMatch = announcement.title.toLowerCase().includes(query);
-      const summaryMatch = announcement.summary.toLowerCase().includes(query);
+      const titleMatch = matchesAnyTerm(announcement.title, terms);
+      const summaryMatch = matchesAnyTerm(announcement.summary, terms);
       const categoriesMatch = announcement.categories?.some((cat) =>
-        cat.toLowerCase().includes(query)
+        matchesAnyTerm(cat, terms)
       );
       return titleMatch || summaryMatch || categoriesMatch;
     });

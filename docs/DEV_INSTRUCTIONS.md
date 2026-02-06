@@ -113,7 +113,8 @@ src/
 ├── utils/                  # Helper functions
 │   ├── calculations.js     # Coverage calculations
 │   ├── formatters.js       # Formatting utilities
-│   └── constants.js        # Constants and region names
+│   ├── constants.js        # Constants and region names
+│   └── searchUtils.js      # Multi-term search parsing and matching
 │
 ├── config/                 # Configuration
 │   └── aws-config.js       # Data URLs and endpoints

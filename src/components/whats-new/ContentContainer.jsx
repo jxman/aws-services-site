@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react';
 import TimelineView from './infrastructure/TimelineView';
 import AnnouncementsList from './announcements/AnnouncementsList';
 import { countTotalChanges } from '../../utils/whatsNewHelpers';
+import { parseSearchTerms, matchesAnyTerm } from '../../utils/searchUtils';
 
 function ContentContainer({ infrastructureData, announcementsData, searchQuery, activeTab }) {
   const announcementsScrollRef = useRef(null);
@@ -9,18 +10,16 @@ function ContentContainer({ infrastructureData, announcementsData, searchQuery, 
   const filteredInfraCount = useMemo(() => {
     if (!infrastructureData?.changeLog) return 0;
 
-    if (!searchQuery) {
-      // No search - count all individual changes across all entries
+    const terms = parseSearchTerms(searchQuery);
+    if (terms.length === 0) {
       return countTotalChanges(infrastructureData.changeLog);
     }
 
-    // With search - count individual changes in filtered entries only
-    const query = searchQuery.toLowerCase();
     const filteredEntries = infrastructureData.changeLog.filter((entry) => {
-      const dateMatch = entry.date.toLowerCase().includes(query);
-      const summaryMatch = entry.summary.toLowerCase().includes(query);
+      const dateMatch = matchesAnyTerm(entry.date, terms);
+      const summaryMatch = matchesAnyTerm(entry.summary, terms);
       const servicesMatch = entry.changes.newServices?.some((s) =>
-        s.name.toLowerCase().includes(query) || s.code.toLowerCase().includes(query)
+        matchesAnyTerm(s.name, terms) || matchesAnyTerm(s.code, terms)
       );
       return dateMatch || summaryMatch || servicesMatch;
     });
@@ -28,16 +27,20 @@ function ContentContainer({ infrastructureData, announcementsData, searchQuery, 
   }, [infrastructureData, searchQuery]);
 
   const filteredAnnouncementsCount = useMemo(() => {
-    if (!searchQuery || !announcementsData?.announcements) {
-      return announcementsData?.announcements?.length || 0;
+    if (!announcementsData?.announcements) {
+      return 0;
     }
 
-    const query = searchQuery.toLowerCase();
+    const terms = parseSearchTerms(searchQuery);
+    if (terms.length === 0) {
+      return announcementsData.announcements.length;
+    }
+
     return announcementsData.announcements.filter((announcement) => {
-      const titleMatch = announcement.title.toLowerCase().includes(query);
-      const summaryMatch = announcement.summary.toLowerCase().includes(query);
+      const titleMatch = matchesAnyTerm(announcement.title, terms);
+      const summaryMatch = matchesAnyTerm(announcement.summary, terms);
       const categoriesMatch = announcement.categories?.some((cat) =>
-        cat.toLowerCase().includes(query)
+        matchesAnyTerm(cat, terms)
       );
       return titleMatch || summaryMatch || categoriesMatch;
     }).length;

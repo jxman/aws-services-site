@@ -1,17 +1,18 @@
 import { useMemo } from 'react';
 import DateHeader from './DateHeader';
 import ChangeCard from './ChangeCard';
+import { parseSearchTerms, matchesAnyTerm } from '../../../utils/searchUtils';
 
 function TimelineView({ changeLog, searchQuery, servicesData }) {
   const filteredChanges = useMemo(() => {
-    if (!searchQuery) return changeLog;
+    const terms = parseSearchTerms(searchQuery);
+    if (terms.length === 0) return changeLog;
 
-    const query = searchQuery.toLowerCase();
     return changeLog.filter((entry) => {
-      const dateMatch = entry.date.toLowerCase().includes(query);
-      const summaryMatch = entry.summary.toLowerCase().includes(query);
+      const dateMatch = matchesAnyTerm(entry.date, terms);
+      const summaryMatch = matchesAnyTerm(entry.summary, terms);
       const servicesMatch = entry.changes.newServices?.some((s) =>
-        s.name.toLowerCase().includes(query) || s.code.toLowerCase().includes(query)
+        matchesAnyTerm(s.name, terms) || matchesAnyTerm(s.code, terms)
       );
       return dateMatch || summaryMatch || servicesMatch;
     });

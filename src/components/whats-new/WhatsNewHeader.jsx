@@ -13,7 +13,8 @@ function WhatsNewHeader({ searchQuery, onSearchChange }) {
         <div className="relative">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search (comma-separated)..."
+            maxLength={500}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full sm:w-64 pl-10 pr-4 py-2 rounded-lg border border-border-light dark:border-border bg-bg-light-secondary dark:bg-bg-secondary text-text-light-primary dark:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"

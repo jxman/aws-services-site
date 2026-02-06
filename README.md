@@ -4,7 +4,7 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.4.0-blue)
+![Version](https://img.shields.io/badge/version-2.5.0-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
 ![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
@@ -62,6 +62,7 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Regional Browse**: Grid and table views of all AWS regions
 - **Service Counts**: Number of available services per region
 - **Coverage Analysis**: Visual coverage percentages with color coding
+- **Multi-Term Search**: Comma-separated search with OR logic (e.g., `us-, ap-` finds all US and Asia Pacific regions)
 - **Search & Filter**: Real-time search and coverage-based filtering
 - **Detail Modals**: Click any region for detailed service lists and metadata
 - **CSV Export**: Export all regions or region-specific data
@@ -70,6 +71,7 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Service Catalog**: Browse all 394+ AWS services
 - **Regional Availability**: See which regions support each service
 - **Coverage Metrics**: Track service availability across regions
+- **Multi-Term Search**: Comma-separated search (e.g., `lambda, s3` finds both services)
 - **Search & Sort**: Filter by name, code, or coverage percentage
 - **Detail Modals**: View regions where each service is available
 - **CSV Export**: Export all services or service-specific data
@@ -78,7 +80,7 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Complete Matrix**: Service × Region availability heatmap
 - **Visual Indicators**: Color-coded availability (✅ Available, ✗ Not Available)
 - **Advanced Filtering**: Filter by service, region, or category
-- **Search**: Real-time search across services and regions
+- **Multi-Term Search**: Comma-separated search across services and regions
 - **CSV Export**: Download complete coverage matrix
 
 ### 📥 Report Center
@@ -205,7 +207,8 @@ aws-services-site/
 │   │   ├── analytics.js    # Google Analytics tracking functions
 │   │   ├── calculations.js # Coverage and statistics calculations
 │   │   ├── formatters.js   # Number, date, percentage formatting
-│   │   └── constants.js    # Coverage colors and chart constants
+│   │   ├── constants.js    # Coverage colors and chart constants
+│   │   └── searchUtils.js  # Multi-term search parsing and matching
 │   │
 │   ├── config/             # Configuration
 │   │   └── aws-config.js   # Data URLs and endpoints
@@ -559,6 +562,17 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### February 6, 2026 - Multi-Term Search
+- **Multi-term search across all pages** - Use commas to search for multiple terms simultaneously
+  - Regions: `us-, ap-` returns all US and Asia Pacific regions
+  - Services: `lambda, s3, ec2` returns all three services
+  - Coverage Matrix: Same comma-separated search support
+  - What's New: Search infrastructure changes and announcements with multiple terms
+- **Shared search utility** (`src/utils/searchUtils.js`) with OR logic matching
+- **Security safeguards**: Max 10 search terms, 500-character input limit
+- **Backward compatible**: Single-term searches work identically to before
+- **Files affected**: `searchUtils.js` (new), `Regions.jsx`, `Services.jsx`, `Coverage.jsx`, `TimelineView.jsx`, `AnnouncementsList.jsx`, `ContentContainer.jsx`, `WhatsNewHeader.jsx`
+
 ### November 14, 2025 - About Page Redesign & CSP Fix
 - ✅ **Complete About Page Redesign** - Modern, professional layout
   - Hero section with tagline "Built by a cloud architect, for cloud architects"
@@ -616,6 +630,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: November 14, 2025
-**Version**: 2.4.0
+**Last Updated**: February 6, 2026
+**Version**: 2.5.0
 **Status**: ✅ Production

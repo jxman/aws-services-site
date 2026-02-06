@@ -78,13 +78,16 @@
 
 ### **4. Search Experience Enhancements** 🔶 MEDIUM PRIORITY
 
-**Current**: Search filters both panels independently but doesn't provide context about which panel has matches.
+**Status**: ⚠️ PARTIALLY IMPLEMENTED (February 2026)
 
-**Suggestions**:
-- Add result counts: "3 changes found" / "8 announcements found"
+**Implemented**:
+- ✅ Multi-term search: Comma-separated terms with OR logic (e.g., `us-, ap-` matches all US and AP regions)
+- ✅ Shared search utility (`src/utils/searchUtils.js`) with safeguards (max 10 terms, 500-char input limit)
+- ✅ Applied across all pages: Regions, Services, Coverage, What's New (both panels)
+
+**Remaining Suggestions**:
 - Consider highlighting search terms in results
 - Clear search button (X icon) when query is active
-- Show "No results in Infrastructure Changes" vs "No results in Announcements" separately
 
 ---
 
@@ -258,7 +261,7 @@ c) **Trending Indicator**: Show which services are expanding fastest
 - ✅ #3: Fix Dashboard links to use React Router - IMPLEMENTED
 
 ### Medium Priority (UX improvements):
-- #4: Add search result counts
+- ⚠️ #4: Multi-term search implemented; highlight & clear button remaining
 - #5: Improve pagination UX (scroll-to-top, keyboard nav)
 - #6: Better regional expansion display for large lists
 - #7: Add retry button on errors

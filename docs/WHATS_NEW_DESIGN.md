@@ -752,14 +752,19 @@ export const applyFilters = (items, filters) => {
   });
 };
 
+// Multi-term search using shared utility (src/utils/searchUtils.js)
+import { parseSearchTerms, matchesAnyTerm } from '../utils/searchUtils';
+
 export const searchItems = (items, query) => {
-  const lowerQuery = query.toLowerCase();
+  const terms = parseSearchTerms(query); // Splits on comma, max 10 terms
+  if (terms.length === 0) return items;
+
   return items.filter(item => {
     return (
-      item.title?.toLowerCase().includes(lowerQuery) ||
-      item.summary?.toLowerCase().includes(lowerQuery) ||
-      item.serviceName?.toLowerCase().includes(lowerQuery) ||
-      item.serviceCode?.toLowerCase().includes(lowerQuery)
+      matchesAnyTerm(item.title, terms) ||
+      matchesAnyTerm(item.summary, terms) ||
+      matchesAnyTerm(item.serviceName, terms) ||
+      matchesAnyTerm(item.serviceCode, terms)
     );
   });
 };
