@@ -1,36 +1,147 @@
 #!/bin/bash
 
 # AWS Services Dashboard - Deployment Script
-# Usage: ./scripts/deploy.sh (or npm run deploy)
+# Opens the deployed site in the default browser when done.
+# Usage: ./scripts/deploy.sh [options] (or npm run deploy)
+#
+# Options:
+#   --dry-run       Build and show what would sync, without uploading, backing up, or invalidating
+#   --skip-build    Reuse the existing dist/ directory instead of rebuilding
+#   --yes           Skip the production confirmation prompt
+#   -h, --help      Show this help message
 
 set -e  # Exit on error
-
-echo "🚀 AWS Services Dashboard - Deployment"
-echo "========================================"
-echo ""
 
 # Colors for output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Configuration
 S3_BUCKET="www.aws-services.synepho.com"
 CLOUDFRONT_DIST_ID="EBTYLWOK3WVOK"
 BACKUP_DIR="/tmp/aws-dashboard-backups"
+SITE_URL="https://aws-services.synepho.com"
+
+# Move to repo root regardless of where the script is invoked from
+cd "$(dirname "$0")/.."
+
+# Flags
+DRY_RUN=false
+SKIP_BUILD=false
+ASSUME_YES=false
+
+show_help() {
+  echo "Usage: $0 [options]"
+  echo ""
+  echo "Options:"
+  echo "  --dry-run       Build and show what would sync, without uploading, backing up, or invalidating"
+  echo "  --skip-build    Reuse the existing dist/ directory instead of rebuilding"
+  echo "  --yes           Skip the production confirmation prompt"
+  echo "  -h, --help      Show this help message"
+}
+
+for arg in "$@"; do
+  case $arg in
+    --dry-run) DRY_RUN=true ;;
+    --skip-build) SKIP_BUILD=true ;;
+    --yes) ASSUME_YES=true ;;
+    -h|--help) show_help; exit 0 ;;
+    *)
+      echo -e "${RED}[ERROR]${NC} Unknown option: $arg"
+      show_help
+      exit 1
+      ;;
+  esac
+done
+
+check_prerequisites() {
+  echo -e "${BLUE}🔎 Checking prerequisites...${NC}"
+
+  if ! command -v aws &> /dev/null; then
+    echo -e "${RED}[ERROR]${NC} AWS CLI is not installed. Please install it first."
+    exit 1
+  fi
+
+  if ! aws sts get-caller-identity &> /dev/null; then
+    echo -e "${RED}[ERROR]${NC} AWS credentials not configured or invalid."
+    echo -e "${BLUE}[INFO]${NC} Run 'aws configure' or set AWS environment variables."
+    exit 1
+  fi
+
+  echo -e "${GREEN}✅ All prerequisites met${NC}"
+  echo ""
+}
+
+show_config() {
+  echo -e "${BLUE}Deployment Configuration:${NC}"
+  echo "  S3 Bucket: $S3_BUCKET"
+  echo "  CloudFront Distribution: $CLOUDFRONT_DIST_ID"
+  echo "  Site URL: $SITE_URL"
+  echo "  AWS Account: $(aws sts get-caller-identity --query Account --output text)"
+  echo "  Dry Run: $DRY_RUN"
+  echo ""
+}
+
+confirm_production() {
+  if [ "$ASSUME_YES" = true ] || [ "$DRY_RUN" = true ]; then
+    return
+  fi
+
+  echo -e "${YELLOW}⚠️  You are about to deploy to PRODUCTION: $SITE_URL${NC}"
+  read -p "Type 'yes' to continue: " confirm
+  if [ "$confirm" != "yes" ]; then
+    echo "Deployment cancelled."
+    exit 0
+  fi
+  echo ""
+}
+
+echo "🚀 AWS Services Dashboard - Deployment"
+echo "========================================"
+echo ""
+
+check_prerequisites
+show_config
+confirm_production
 
 # Step 1: Build
-echo -e "${BLUE}📦 Step 1: Building production bundle...${NC}"
-npm run build
-echo -e "${GREEN}✅ Build completed successfully${NC}"
-echo ""
+if [ "$SKIP_BUILD" = true ]; then
+  echo -e "${YELLOW}⚠️  Skipping build (--skip-build)${NC}"
+  echo ""
+else
+  echo -e "${BLUE}📦 Step 1: Building production bundle...${NC}"
+  npm run build
+  echo -e "${GREEN}✅ Build completed successfully${NC}"
+  echo ""
+fi
+
+if [ ! -f "dist/index.html" ]; then
+  echo -e "${RED}[ERROR]${NC} Build output not found at ./dist/index.html"
+  exit 1
+fi
 
 # Step 1.5: Create 404.html for SPA routing
 echo -e "${BLUE}📄 Step 1.5: Creating 404.html for SPA routing...${NC}"
 cp dist/index.html dist/404.html
 echo -e "${GREEN}✅ 404.html created${NC}"
 echo ""
+
+if [ "$DRY_RUN" = true ]; then
+  echo -e "${YELLOW}⚠️  Dry run: showing what would sync, no upload/backup/invalidation will occur${NC}"
+  echo ""
+  echo -e "${BLUE}☁️  Step 2: Previewing S3 sync...${NC}"
+  aws s3 sync dist/ "s3://$S3_BUCKET/" \
+    --dryrun \
+    --exclude "data/*" \
+    --exclude "reports/*" \
+    --delete
+  echo ""
+  echo -e "${GREEN}✅ Dry run complete — no changes were made${NC}"
+  exit 0
+fi
 
 # Step 2: Backup
 echo -e "${BLUE}💾 Step 2: Creating backup...${NC}"
@@ -85,7 +196,6 @@ aws cloudfront wait invalidation-completed \
 # Step 6: Site verification
 echo ""
 echo -e "${BLUE}🔍 Step 6: Running site verification...${NC}"
-SITE_URL="https://aws-services.synepho.com"
 VERIFY_FAILED=0
 
 # Check main page
@@ -121,7 +231,6 @@ else
 fi
 
 # Check static assets (CSS/JS from built bundle)
-ASSET_CHECK=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL" | head -1)
 INDEX_CONTENT=$(curl -s "$SITE_URL")
 CSS_FILE=$(echo "$INDEX_CONTENT" | grep -o 'href="/assets/[^"]*\.css"' | head -1 | sed 's/href="//;s/"//')
 JS_FILE=$(echo "$INDEX_CONTENT" | grep -o 'src="/assets/[^"]*\.js"' | head -1 | sed 's/src="//;s/"//')
@@ -157,3 +266,7 @@ echo ""
 echo -e "${YELLOW}🔙 Rollback (if needed):${NC}"
 echo "  aws s3 cp $BACKUP_FILE s3://$S3_BUCKET/index.html"
 echo ""
+
+if command -v open &> /dev/null; then
+  open "$SITE_URL"
+fi
