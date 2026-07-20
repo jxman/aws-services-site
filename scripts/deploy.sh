@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # AWS Services Dashboard - Deployment Script
-# Usage: ./deploy.sh
+# Usage: ./scripts/deploy.sh (or npm run deploy)
 
 set -e  # Exit on error
 
