@@ -229,7 +229,8 @@ aws-services-site/
 ├── dist/                   # Build output (gitignored)
 ├── node_modules/           # Dependencies (gitignored)
 │
-├── deploy.sh              # Automated deployment script
+├── scripts/                # Automation scripts
+│   └── deploy.sh          # Automated deployment script
 ├── index.html             # HTML entry point
 ├── package.json           # Dependencies and scripts
 ├── package-lock.json      # Locked dependency versions
@@ -266,7 +267,7 @@ npm run lint
 2. **Test Locally**: Verify changes at http://localhost:3000
 3. **Run Linter**: `npm run lint` to check code quality
 4. **Build**: `npm run build` to ensure production build works
-5. **Deploy**: Use `./deploy.sh` to deploy to production
+5. **Deploy**: Use `npm run deploy` (or `./scripts/deploy.sh`) to deploy to production
 
 ### Data Fetching
 
@@ -297,7 +298,9 @@ npm run lint
 
 ```bash
 # Deploy to production (recommended)
-./deploy.sh
+npm run deploy
+# or directly:
+./scripts/deploy.sh
 ```
 
 The deployment script:
@@ -562,6 +565,13 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### March 3, 2026 - Footer Buy Me a Coffee Link
+- ✅ **Added "Buy me a coffee" link to footer** - Discreet support link in the About section
+  - Coffee cup SVG icon with amber/yellow color for visibility
+  - Links to [buymeacoffee.com/synepho](https://buymeacoffee.com/synepho)
+  - Positioned below the site description in the footer's About column
+- **Files affected**: `Footer.jsx`
+
 ### February 6, 2026 - Multi-Term Search
 - **Multi-term search across all pages** - Use commas to search for multiple terms simultaneously
   - Regions: `us-, ap-` returns all US and Asia Pacific regions
@@ -630,6 +640,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: February 6, 2026
+**Last Updated**: March 3, 2026
 **Version**: 2.5.0
 **Status**: ✅ Production

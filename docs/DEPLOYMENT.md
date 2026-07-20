@@ -3,7 +3,9 @@
 ## Quick Deploy (Automated)
 
 ```bash
-./deploy.sh
+npm run deploy
+# or directly:
+./scripts/deploy.sh
 ```
 
 This script will:
@@ -199,7 +201,7 @@ npm run build
 npm run preview
 
 # 6. Deploy to production
-./deploy.sh
+npm run deploy
 
 # 7. Verify production
 # - Visit all routes (Dashboard, Regions, Services, Coverage, Reports, About)

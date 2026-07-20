@@ -16,6 +16,20 @@ function Footer() {
               Real-time AWS infrastructure visualization across 38 regions and
               394+ services. Data updated daily at 2:00 AM UTC.
             </p>
+            <a
+              href="https://buymeacoffee.com/synepho"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 mt-4 text-sm text-amber-500 dark:text-yellow-400 hover:text-amber-600 dark:hover:text-yellow-300 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                <path d="M10 2v2"></path>
+                <path d="M14 2v2"></path>
+                <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"></path>
+                <path d="M6 2v2"></path>
+              </svg>
+              Buy me a coffee
+            </a>
           </div>
 
           {/* Links */}
