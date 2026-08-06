@@ -1,4 +1,5 @@
 import { DATA_SOURCE } from "../../config/aws-config";
+import Logo from "../common/Logo";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -94,9 +95,21 @@ function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-border-light dark:border-border">
-          <p className="text-center text-text-light-secondary dark:text-text-secondary text-sm">
-            © {currentYear} AWS Services Dashboard by Synepho. Data from AWS Systems Manager Parameter Store.
-            Not affiliated with AWS, Inc.
+          <p className="flex flex-wrap items-baseline justify-center gap-x-1 text-center text-text-light-secondary dark:text-text-secondary text-sm">
+            <span>© {currentYear} AWS Services Dashboard by</span>
+            <a
+              href="https://synepho.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-baseline opacity-70 hover:opacity-100 transition-opacity"
+              aria-label="Synepho"
+            >
+              <Logo className="h-4 w-auto" />
+            </a>
+            <span>
+              . Data from AWS Systems Manager Parameter Store. Not affiliated
+              with AWS, Inc.
+            </span>
           </p>
         </div>
       </div>

@@ -4,7 +4,7 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.5.0-blue)
+![Version](https://img.shields.io/badge/version-2.6.0-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
 ![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
@@ -565,6 +565,15 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### August 5, 2026 - Synepho Brand Logo Integration
+- ✅ **Added Synepho wordmark logo** - Replaces plain-text branding across the site
+  - New theme-aware `Logo` component (`src/components/common/Logo.jsx`) swaps between light/dark variants based on the active theme
+  - Header: logo replaces the "AWS / Services Dashboard" text logo, links to `/`
+  - Footer: small linked logo added to the copyright credit line (replacing plain-text "Synepho"), links to [synepho.com](https://synepho.com)
+  - About page: logo added next to the "Founder of Synepho" bio line
+  - Dark-mode logo asset had its solid background removed (chroma-keyed to transparent) so it composites cleanly against the site's dark theme background
+- **Files affected**: `Logo.jsx` (new), `Header.jsx`, `Footer.jsx`, `About.jsx`, `public/logo-light.png` (new), `public/logo-dark.png` (new)
+
 ### March 3, 2026 - Footer Buy Me a Coffee Link
 - ✅ **Added "Buy me a coffee" link to footer** - Discreet support link in the About section
   - Coffee cup SVG icon with amber/yellow color for visibility
@@ -640,6 +649,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: March 3, 2026
-**Version**: 2.5.0
+**Last Updated**: August 5, 2026
+**Version**: 2.6.0
 **Status**: ✅ Production

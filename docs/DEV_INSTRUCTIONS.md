@@ -87,7 +87,8 @@ src/
 │   │   ├── ErrorMessage.jsx # Error display
 │   │   ├── StatCard.jsx    # Dashboard stat cards
 │   │   ├── ServiceDetailModal.jsx  # Service detail modal
-│   │   └── RegionDetailModal.jsx   # Region detail modal
+│   │   ├── RegionDetailModal.jsx   # Region detail modal
+│   │   └── Logo.jsx        # Synepho logo (theme-aware light/dark variant)
 │   │
 │   ├── layout/             # Layout components
 │   │   ├── Header.jsx      # Site header and navigation

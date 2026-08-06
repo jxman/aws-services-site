@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useState } from "react";
+import Logo from "../common/Logo";
 
 function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -10,13 +11,14 @@ function Header() {
     <header className="bg-bg-light-secondary dark:bg-bg-secondary border-b border-border-light dark:border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo and Title */}
+          {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
-              <div className="text-2xl font-bold text-primary">AWS</div>
-              <div className="text-lg sm:text-xl font-semibold text-text-light-primary dark:text-text-primary">
-                Services Dashboard
-              </div>
+            <Link
+              to="/"
+              className="group flex items-center hover:scale-105 transition-transform duration-200"
+              aria-label="AWS Services Dashboard"
+            >
+              <Logo className="h-8 w-auto" />
             </Link>
           </div>
 

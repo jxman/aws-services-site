@@ -1,5 +1,6 @@
 import Container from "../components/layout/Container";
 import { DATA_SOURCE } from "../config/aws-config";
+import Logo from "../components/common/Logo";
 
 function About() {
   return (
@@ -35,15 +36,16 @@ function About() {
               <h3 className="text-lg font-bold text-text-light-primary dark:text-text-primary mb-1">
                 John Xanthopoulos
               </h3>
-              <p className="mb-2 text-text-light-primary dark:text-text-primary font-medium text-sm">
-                Founder of{" "}
+              <p className="mb-2 flex items-baseline flex-wrap gap-x-1.5 text-text-light-primary dark:text-text-primary font-medium text-sm">
+                <span>Founder of</span>
                 <a
                   href="https://synepho.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline"
+                  className="inline-flex items-baseline hover:opacity-80 transition-opacity"
+                  aria-label="Synepho"
                 >
-                  Synepho
+                  <Logo className="h-5 w-auto" />
                 </a>
               </p>
 
