@@ -4,7 +4,7 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.6.0-blue)
+![Version](https://img.shields.io/badge/version-2.6.1-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
 ![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
@@ -565,6 +565,13 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### August 5, 2026 - Snyk Dependency Vulnerability Fixes
+- ✅ **Ran Snyk SCA + Code (SAST) scans** - Code scan came back clean (0 issues); SCA found 6 open-source dependency issues
+  - `dompurify` 3.4.11 → 3.4.13 - fixed a low-severity "Incomplete List of Disallowed Inputs" issue
+  - `react-router-dom` 7.15.1 → 7.18.2 - fixed 4 issues in transitive `react-router`: high-severity XSS, high-severity Open Redirect, high-severity inefficient algorithmic complexity, and medium-severity CSRF
+- ℹ️ **Known accepted risk**: `npm audit` separately flags [GHSA-qwww-vcr4-c8h2](https://github.com/advisories/GHSA-qwww-vcr4-c8h2) (CSRF bypass, fixed only in `react-router@8.3.0`). Confirmed via the advisory and a codebase search that this only affects apps using React Router's unstable RSC APIs, which this Vite + React 18 SPA does not use — left on 7.18.2 rather than forcing a v8 migration
+- **Files affected**: `package.json`, `package-lock.json`
+
 ### August 5, 2026 - Synepho Brand Logo Integration
 - ✅ **Added Synepho wordmark logo** - Replaces plain-text branding across the site
   - New theme-aware `Logo` component (`src/components/common/Logo.jsx`) swaps between light/dark variants based on the active theme
@@ -650,5 +657,5 @@ This project is private and proprietary.
 ---
 
 **Last Updated**: August 5, 2026
-**Version**: 2.6.0
+**Version**: 2.6.1
 **Status**: ✅ Production
