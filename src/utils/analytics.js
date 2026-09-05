@@ -1,7 +1,38 @@
 /**
- * Google Analytics utility functions
+ * Google Analytics (GA4) utility functions
  * Centralizes all GA tracking calls for consistent implementation
+ *
+ * Single source of truth for the measurement ID: set VITE_GA_MEASUREMENT_ID
+ * in .env (see .env.example). Falls back to the production ID so a missing
+ * .env never breaks the build.
  */
+
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-2HLT4VSZHW';
+
+/**
+ * Load and initialize gtag.js. Only runs in production builds so local
+ * dev (`npm run dev`) and Claude's port-3002 test server never send
+ * pageviews/events to the live GA property.
+ */
+export const initGA = () => {
+  if (typeof window === 'undefined' || !import.meta.env.PROD || window.gtag) {
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  // send_page_view: false — usePageTracking's initial-mount effect sends the
+  // first page_view event itself, so the default auto pageview would double-count it.
+  window.gtag('config', GA_MEASUREMENT_ID, { send_page_view: false });
+};
 
 /**
  * Send a pageview event to Google Analytics
@@ -10,9 +41,10 @@
  */
 export const trackPageView = (url, title) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'G-2HLT4VSZHW', {
+    window.gtag('event', 'page_view', {
       page_path: url,
       page_title: title,
+      page_location: window.location.href,
     });
   }
 };

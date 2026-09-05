@@ -6,11 +6,24 @@
 # Install dependencies
 npm install
 
+# Copy env template (GA measurement ID; not a secret, has a working default)
+cp .env.example .env
+
 # Start development server
 npm run dev
 
 # Server will start at http://localhost:3000
 ```
+
+---
+
+## Environment Variables
+
+| Variable | Purpose | Notes |
+|---|---|---|
+| `VITE_GA_MEASUREMENT_ID` | GA4 measurement ID | See `.env.example`. Falls back to the production ID in code if unset, so a missing `.env` won't break the build. |
+
+Google Analytics only loads in production builds (`import.meta.env.PROD`) — see `initGA()` in `src/utils/analytics.js`. `npm run dev` and any local testing (including Claude's port-3002 test server) never send data to the live GA property.
 
 ---
 
