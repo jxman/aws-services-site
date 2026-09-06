@@ -80,19 +80,41 @@ window.gtag('event', 'page_view', {
 ### 5. `trackEvent` / `trackInteraction` are unused
 
 **Issue**: Custom event helpers exist but are never called — the site only
-ever records pageviews today, with zero engagement/feature-usage data.
+ever recorded pageviews, with zero engagement/feature-usage data.
 
-**Candidates**:
-- `Reports.jsx` export actions — `exportRegionsCSV`, `exportServicesCSV`,
-  `exportCoverageCSV`, and the Excel report download link. No visibility
-  today into which export format people actually use.
-- Search usage across Regions/Services/Coverage/WhatsNew — a GA4 `search`
-  event with a `search_term` param would surface what people look for.
-- Outbound clicks: "Buy me a coffee" and Synepho links in `Footer.jsx`.
-- Service/Region detail modal opens (`ServiceDetailModal.jsx`,
-  `RegionDetailModal.jsx`).
+**Fix**: Wired up three custom events across all export/link surfaces,
+using custom event names (not GA4's reserved `file_download`) to avoid any
+ambiguity with Enhanced Measurement's automatic detection — the CSV exports
+use `blob:` URLs Enhanced Measurement can't see anyway, so this is the only
+way to capture them.
 
-**Status**: ⬜ NOT STARTED — ⚠️ MEDIUM PRIORITY
+- **`file_export`** (`file_type`, `report_name`, `source`) — fired from all
+  8 export functions: `Regions.jsx`/`Services.jsx`/`Coverage.jsx` page-level
+  `exportToCSV`, `Reports.jsx`'s three `export*CSV` functions, the two
+  detail-modal `exportToCSV` functions (`RegionDetailModal.jsx`,
+  `ServiceDetailModal.jsx`), and both Excel report download links
+  (`Reports.jsx`, `Footer.jsx`).
+- **`outbound_click`** (`link_url`, `link_text`) — Buy Me a Coffee, Synepho,
+  "AWS Infrastructure Fetcher", and "Data Contract" links in `Footer.jsx`.
+- **`view_item_detail`** (`item_type`, `item_code`) — fired from
+  `handleRegionClick`/`handleServiceClick` in `Regions.jsx`/`Services.jsx`
+  when a detail modal is opened.
+
+Search-term tracking was scoped out: the search inputs fire `onChange` per
+keystroke, so tracking it properly needs a debounce hook, deferred as a
+separate follow-up rather than bundled into this pass.
+
+**Update (same day, after auditing the live GA4 account — see #9)**:
+removed the `file_export` calls on the two static Excel `.xlsx` download
+links (`Reports.jsx`, `Footer.jsx`) and all 5 `outbound_click` calls in
+`Footer.jsx` — GA4 Enhanced Measurement was found to already be on for this
+property and auto-tracks both `file_download` (real anchor `href`s with a
+recognized extension) and outbound `click` events, making that subset of
+our custom instrumentation a duplicate. The CSV `file_export` calls stay,
+since those use `blob:` URLs Enhanced Measurement can't see, and
+`view_item_detail` stays as the only way to capture modal-open engagement.
+
+**Status**: ✅ IMPLEMENTED (search-term tracking deferred, see below)
 
 ---
 
@@ -114,3 +136,89 @@ dashboard, so likely acceptable as-is, but there's no conscious compliance
 decision on record for EU/GDPR-region traffic.
 
 **Status**: ⬜ NOT STARTED — LOW PRIORITY, revisit if EU traffic/compliance becomes a concern
+
+---
+
+### 8. Search-term tracking (deferred from #5)
+
+**Issue**: Search inputs on Regions/Services/Coverage fire `onChange` per
+keystroke — tracking raw would send a GA event per character typed.
+
+**Fix (planned)**: Add a small `useDebouncedValue` hook and fire a GA4
+`search` event (`search_term`, `page`) ~600-800ms after the user stops
+typing, or on blur.
+
+**Status**: ⬜ NOT STARTED — LOW/MEDIUM PRIORITY
+
+---
+
+## Live GA4 Account Audit — 2026-09-05
+
+Reviewed the actual GA4 property backing `G-2HLT4VSZHW` via the Analytics
+console (account "Synepho Sites", property `synepho.com` / 302736060,
+stream `synepho` / 3234304275). Key finding: this one stream/property
+receives data from every `*.synepho.com` site (and possibly others) that
+uses this measurement ID — GA4 doesn't scope collection by domain, it pools
+by measurement ID. That's expected/by design here, not a bug, but explains
+why `aws-services.synepho.com` traffic shows up alongside other sites' data
+with no built-in separation (a `hostname` dimension is captured on every hit
+if per-site breakdown is ever needed).
+
+### 9. Enhanced Measurement is already on
+
+**Finding**: Page views, Scrolls, Outbound clicks, Site search, Video
+engagement, and File downloads are all enabled (Form interactions is off).
+Acted on above (#5 update): removed the redundant custom `file_export` /
+`outbound_click` calls for real anchor-tag links, since GA4 already emits
+equivalent automatic events for those. Confirmed Site search's automatic
+detection is URL-query-param based, which doesn't apply to this app's
+client-side search state — so #8 (deferred debounced search tracking)
+remains genuinely necessary, not redundant.
+
+**Status**: ✅ NOTED, acted on
+
+---
+
+### 10. Internal Traffic filter is in "Testing" state, not "Active"
+
+**Issue**: An "Internal Traffic" data filter exists (excludes events where
+`traffic_type` = `internal`), but its state is **Testing** — in this state
+GA4 only tags matching traffic for verification, it does **not** exclude it
+from reports. If this was meant to keep the property owner's own visits out
+of the numbers, it isn't doing that yet.
+
+**Next step**: Confirm the underlying IP-based internal-traffic rule
+(Admin → Data Streams → stream → Configure tag settings → Define internal
+traffic) is actually configured and correct, then flip the filter to
+**Active**.
+
+**Status**: ⬜ NOT STARTED — needs IP-rule verification before flipping to Active (deliberately left for the property owner to confirm)
+
+---
+
+### 11. Event data retention bumped to 14 months
+
+**Issue**: Event data retention was at GA4's default of 2 months (User data
+was already at 14 months). Only affects Explore/analysis-hub reports built
+on unaggregated event data, not standard aggregated reports — but there's
+no downside to the longer window.
+
+**Fix**: Changed Admin → Data Streams (property) → Data retention → Event
+data from 2 months to 14 months.
+
+**Status**: ✅ IMPLEMENTED
+
+---
+
+### 12. Tag diagnostics flagged undeclared cross-domain hosts
+
+**Finding**: Google's Tag Diagnostics shows "Additional domains detected
+for configuration" under Cross-domain Linking. The suggested list surfaced
+was unrelated Vercel preview URLs from a different project, not
+`aws-services.synepho.com` itself — could not confirm either way whether it
+appears further down the list. This only matters for **session continuity**
+when a visitor clicks between two of the account's own domains (e.g. the
+footer's Synepho logo link, `aws-services.synepho.com` → `synepho.com`) —
+without it, that hop starts a new GA4 session instead of continuing one.
+
+**Status**: ⬜ NOT STARTED — LOW PRIORITY, only relevant if cross-site session continuity is wanted

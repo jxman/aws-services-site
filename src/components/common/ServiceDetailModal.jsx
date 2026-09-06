@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAWSData } from '../../hooks/useAWSData';
 import { formatNumber, formatPercentage } from '../../utils/formatters';
+import { trackEvent } from '../../utils/analytics';
 
 function ServiceDetailModal({ isOpen, onClose, service, regions }) {
   const { data } = useAWSData();
@@ -15,6 +16,7 @@ function ServiceDetailModal({ isOpen, onClose, service, regions }) {
   }, {});
 
   const exportToCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'service_detail', source: 'modal' });
     const sortedRegions = regions
       .map(code => {
         const region = regionLookup[code];

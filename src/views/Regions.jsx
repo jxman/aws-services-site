@@ -8,6 +8,7 @@ import { getCoverageColor } from '../utils/constants';
 import { calculateCoverage } from '../utils/calculations';
 import { formatNumber, formatPercentage } from '../utils/formatters';
 import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
+import { trackEvent } from '../utils/analytics';
 
 function Regions() {
   const { data, isLoading, isError, error, refetch } = useAWSData();
@@ -67,6 +68,7 @@ function Regions() {
   }, [regionsData, searchTerm, filterCoverage]);
 
   const handleRegionClick = (region) => {
+    trackEvent('view_item_detail', { item_type: 'region', item_code: region.code });
     setSelectedRegion(region);
     setIsModalOpen(true);
   };
@@ -77,6 +79,7 @@ function Regions() {
   };
 
   const exportToCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'regions', source: 'regions_page' });
     const headers = ['Region Name', 'Region Code', 'Services Available', 'Total Services', 'Coverage %'];
     const rows = filteredRegions.map(region => [
       region.name,

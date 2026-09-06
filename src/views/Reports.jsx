@@ -5,6 +5,7 @@ import Loading from '../components/common/Loading';
 import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { formatRelativeTime } from '../utils/formatters';
 import { calculateCoverage } from '../utils/calculations';
+import { trackEvent } from '../utils/analytics';
 
 function Reports() {
   const { data, isLoading } = useAWSData();
@@ -103,6 +104,7 @@ function Reports() {
   }, [data, serviceNamesData]);
 
   const exportRegionsCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'regions', source: 'reports_page' });
     const headers = ['Region Name', 'Region Code', 'Services Available', 'Total Services', 'Coverage %'];
     const rows = regionsData.map(region => [
       region.name,
@@ -128,6 +130,7 @@ function Reports() {
   };
 
   const exportServicesCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'services', source: 'reports_page' });
     const headers = ['Service Name', 'Service Code', 'Available Regions', 'Total Regions', 'Coverage %'];
     const rows = servicesData.map(service => [
       service.name,
@@ -153,6 +156,7 @@ function Reports() {
   };
 
   const exportCoverageCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'coverage', source: 'reports_page' });
     const headers = ['Service', 'Service Code', ...matrixData.regions.map(r => r.code)];
     const rows = matrixData.services.map(service => [
       service.name,

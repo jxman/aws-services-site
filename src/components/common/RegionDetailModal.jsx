@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useServiceNames } from '../../hooks/useAWSData';
 import { formatDate } from '../../utils/formatters';
+import { trackEvent } from '../../utils/analytics';
 
 function RegionDetailModal({ isOpen, onClose, region, services }) {
   const { data: serviceNamesData } = useServiceNames();
@@ -9,6 +10,7 @@ function RegionDetailModal({ isOpen, onClose, region, services }) {
   if (!region) return null;
 
   const exportToCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'region_detail', source: 'modal' });
     const nameMap = Object.create(null);
     if (serviceNamesData) {
       serviceNamesData.forEach(service => {

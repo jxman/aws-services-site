@@ -8,6 +8,7 @@ import { getCoverageColor } from '../utils/constants';
 import { calculateCoverage } from '../utils/calculations';
 import { formatNumber, formatPercentage } from '../utils/formatters';
 import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
+import { trackEvent } from '../utils/analytics';
 
 function Services() {
   const { data, isLoading, isError, error, refetch } = useAWSData();
@@ -86,6 +87,7 @@ function Services() {
   }, [servicesData, searchTerm, filterCoverage, sortBy]);
 
   const handleServiceClick = (service) => {
+    trackEvent('view_item_detail', { item_type: 'service', item_code: service.code });
     setSelectedService(service);
     setIsModalOpen(true);
   };
@@ -96,6 +98,7 @@ function Services() {
   };
 
   const exportToCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'services', source: 'services_page' });
     const headers = ['Service Name', 'Service Code', 'Available Regions', 'Total Regions', 'Coverage %'];
     const rows = filteredAndSortedServices.map(service => [
       service.name,

@@ -4,6 +4,7 @@ import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
 import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
+import { trackEvent } from '../utils/analytics';
 
 function Coverage() {
   const { data, isLoading, isError, error, refetch } = useAWSData();
@@ -65,6 +66,7 @@ function Coverage() {
   }, [matrixData, searchTerm, showAvailableOnly]);
 
   const exportToCSV = () => {
+    trackEvent('file_export', { file_type: 'csv', report_name: 'coverage', source: 'coverage_page' });
     const headers = ['Service', 'Service Code', ...matrixData.regions.map(r => r.code)];
     const rows = filteredServices.map(service => [
       service.name,
