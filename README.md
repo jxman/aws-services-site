@@ -4,10 +4,10 @@
 
 **Live Site**: [https://aws-services.synepho.com](https://aws-services.synepho.com)
 
-![Version](https://img.shields.io/badge/version-2.6.1-blue)
+![Version](https://img.shields.io/badge/version-2.6.2-blue)
 ![Status](https://img.shields.io/badge/status-production-success)
 ![React](https://img.shields.io/badge/react-18.3.1-blue)
-![Vite](https://img.shields.io/badge/vite-5.3.1-646CFF)
+![Vite](https://img.shields.io/badge/vite-7.3.7-646CFF)
 
 ---
 
@@ -106,10 +106,10 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | **React** | 18.3.1 | UI framework with Context API for theme management |
-| **Vite** | 5.3.1 | Build tool and dev server (10-100x faster than CRA) |
-| **React Router** | 7.9.4 | Client-side routing |
+| **Vite** | 7.3.7 | Build tool and dev server (10-100x faster than CRA) |
+| **React Router** | 7.18.4 | Client-side routing |
 | **TanStack Query** | 5.90.5 | Data fetching, caching, and synchronization |
-| **Tailwind CSS** | 3.4.18 | Utility-first CSS framework with dark mode support |
+| **Tailwind CSS** | 3.4.19 | Utility-first CSS framework with dark mode support |
 | **Headless UI** | 2.2.9 | Accessible UI components |
 | **Recharts** | 3.3.0 | React-based charting library |
 | **date-fns** | 4.1.0 | Date formatting and manipulation |
@@ -122,7 +122,8 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Route 53**: DNS management
 
 ### Development Tools
-- **ESLint**: Code linting and quality
+- **ESLint 9**: Code linting and quality (flat config in `eslint.config.js`)
+- **Husky + lint-staged + gitleaks + commitlint**: Pre-commit linting, merge-conflict and secret scanning, Conventional Commit messages
 - **PostCSS**: CSS processing with Autoprefixer
 - **GitHub Actions**: CI/CD pipeline
 
@@ -235,6 +236,9 @@ aws-services-site/
 ├── package.json           # Dependencies and scripts
 ├── package-lock.json      # Locked dependency versions
 ├── vite.config.js         # Vite configuration
+├── eslint.config.js       # ESLint flat config
+├── commitlint.config.js   # Conventional Commits rules
+├── .husky/                # Git hooks (pre-commit, commit-msg)
 ├── tailwind.config.js     # Tailwind configuration
 ├── postcss.config.js      # PostCSS configuration
 ├── .gitignore             # Git ignore patterns
@@ -565,6 +569,18 @@ This project is private and proprietary.
 
 ## 🔄 Recent Changes
 
+### October 7, 2026 - Snyk Dependency Vulnerability Fixes (Vite 7, ESLint 9)
+- ✅ **Ran Snyk SCA + Code (SAST) scans** - Code scan clean (0 issues); SCA found 45 dependency issues (2 critical), reduced to 4 dev-only issues with no available fix
+  - `dompurify` 3.4.13 → 3.4.16 (2x XSS), `postcss` 8.5.6 → 8.5.29 (XSS, directory traversal)
+  - `vite` 5.4 → 7.3.7 and `@vitejs/plugin-react` 4 → 5 - fixed critical esbuild insecure-download issue plus Vite/Rollup directory traversal
+  - `eslint` 8 → 9.39 - ESLint 8 is end-of-life; fixed 15 transitive issues including critical `flatted` prototype pollution. Migrated `.eslintrc.cjs` to flat `eslint.config.js` with the same rule set
+  - `postcss-selector-parser` overridden to 7.1.6 (built CSS verified byte-identical)
+  - `npm update` for in-range patches (nanoid, browserslist, glob, minimatch, brace-expansion, picomatch, @babel/core)
+- ✅ **Fixed vendor chunking** - Vite 7 left `react-vendor` empty with the object-form `manualChunks`; switched to a function so React, router, and TanStack Query split as before
+- ✅ **Added pre-commit hooks** - Husky + lint-staged (ESLint on staged files), merge-conflict marker check, gitleaks secret scan, commitlint (Conventional Commits)
+- ℹ️ **Remaining accepted risk (dev-only, not shipped)**: `uri-js` (via ESLint 9; fix requires ESLint 10, not yet supported by `eslint-plugin-react`) and `braces` (via Tailwind 3; fix requires Tailwind 4 migration)
+- **Files affected**: `package.json`, `package-lock.json`, `vite.config.js`, `eslint.config.js` (new), `.eslintrc.cjs` (removed), `commitlint.config.js` (new), `.husky/` (new)
+
 ### August 5, 2026 - Snyk Dependency Vulnerability Fixes
 - ✅ **Ran Snyk SCA + Code (SAST) scans** - Code scan came back clean (0 issues); SCA found 6 open-source dependency issues
   - `dompurify` 3.4.11 → 3.4.13 - fixed a low-severity "Incomplete List of Disallowed Inputs" issue
@@ -656,6 +672,6 @@ This project is private and proprietary.
 
 ---
 
-**Last Updated**: August 5, 2026
-**Version**: 2.6.1
+**Last Updated**: October 7, 2026
+**Version**: 2.6.2
 **Status**: ✅ Production

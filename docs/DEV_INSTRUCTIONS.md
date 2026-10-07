@@ -151,7 +151,7 @@ src/
 2. **Hot Reload**: Changes appear instantly in browser
 3. **Test Locally**: Verify functionality at http://localhost:3000
 4. **Check Console**: Ensure no errors in browser console
-5. **Lint**: Run `npm run lint` before committing
+5. **Lint**: Pre-commit hooks (Husky) run ESLint on staged files, scan for secrets (gitleaks, `brew install gitleaks`), and enforce Conventional Commit messages
 
 ### Adding New Routes
 

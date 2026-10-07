@@ -337,10 +337,9 @@ Add npm audit to CI pipeline
 - [ ] (Optional) Dependabot enabled for automated PRs
 
 **Current Status:**
-- 2 moderate vulnerabilities in dev dependencies (esbuild/vite)
-- Only affects development server, not production
-- Fix requires breaking change (vite 5.x → 7.x)
-- Deferred until Vite 6.x stable release or CI/CD setup
+- October 7, 2026: Upgraded to Vite 7 and ESLint 9; Snyk SCA down from 45 to 4 issues
+- Remaining 4 are dev-only with no fix available (`uri-js` via ESLint 9, `braces` via Tailwind 3)
+- Pre-commit hooks (lint-staged, gitleaks, commitlint) added via Husky
 
 **Dependencies:** #3 CI/CD
 

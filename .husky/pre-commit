@@ -1,0 +1,16 @@
+# Block commits containing unresolved merge conflict markers
+conflict_files=$(git diff --cached --name-only --diff-filter=ACM -z | xargs -0 -I{} sh -c 'grep -lE "^(<<<<<<<|=======|>>>>>>>)( |$)" "{}" 2>/dev/null' || true)
+if [ -n "$conflict_files" ]; then
+  echo "Merge conflict markers found in staged files:"
+  echo "$conflict_files"
+  exit 1
+fi
+
+# Scan staged changes for secrets
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks not found. Install with: brew install gitleaks"
+  exit 1
+fi
+gitleaks protect --staged --redact -v
+
+npx lint-staged
