@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { SITE_URL } from '../../utils/seo';
 
 /**
  * Component to dynamically manage the canonical URL based on current route
@@ -7,7 +8,6 @@ import { useLocation } from 'react-router-dom';
  */
 const CanonicalTag = () => {
   const location = useLocation();
-  const baseUrl = 'https://aws-services.synepho.com';
 
   useEffect(() => {
     // Find existing canonical link or create new one
@@ -20,7 +20,9 @@ const CanonicalTag = () => {
     }
 
     // Build canonical URL from current pathname
-    const canonicalUrl = `${baseUrl}${location.pathname}`;
+    // Prerendered pages are served without a trailing slash, so canonicalize to that form
+    const pathname = location.pathname.length > 1 ? location.pathname.replace(/\/+$/, '') : location.pathname;
+    const canonicalUrl = `${SITE_URL}${pathname}`;
     canonicalLink.setAttribute('href', canonicalUrl);
 
     // Also update OG URL for social sharing consistency

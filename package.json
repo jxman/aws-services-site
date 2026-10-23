@@ -6,7 +6,7 @@
   "description": "AWS Services Dashboard - Real-time AWS infrastructure visualization",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",
     "deploy": "./scripts/deploy.sh",

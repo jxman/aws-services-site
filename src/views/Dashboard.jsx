@@ -7,8 +7,11 @@ import StatCard from '../components/common/StatCard';
 import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
 import WhatsNewPreview from '../components/dashboard/WhatsNewPreview';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { STATIC_PAGES } from '../utils/seo';
 
 function Dashboard() {
+  usePageMeta(STATIC_PAGES['/']);
   const { data, isLoading, error, refetch } = useAWSData();
 
   if (isLoading) {
@@ -27,10 +30,10 @@ function Dashboard() {
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-text-light-primary dark:text-text-primary mb-2">
-          AWS Services Dashboard
+          {STATIC_PAGES['/'].heading}
         </h1>
         <p className="text-text-light-secondary dark:text-text-secondary">
-          Real-time AWS infrastructure visualization across all regions and services
+          Daily-updated availability of every AWS service in every AWS region
         </p>
         {lastUpdated && (
           <p className="text-text-light-secondary dark:text-text-secondary text-sm mt-2">

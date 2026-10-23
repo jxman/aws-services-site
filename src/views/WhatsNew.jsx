@@ -6,8 +6,11 @@ import WhatsNewHeader from '../components/whats-new/WhatsNewHeader';
 import ContentContainer from '../components/whats-new/ContentContainer';
 import MobileTabNavigation from '../components/whats-new/MobileTabNavigation';
 import { countTotalChanges } from '../utils/whatsNewHelpers';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { STATIC_PAGES } from '../utils/seo';
 
 function WhatsNew() {
+  usePageMeta(STATIC_PAGES['/whats-new']);
   const [activeTab, setActiveTab] = useState('infrastructure');
   const [searchQuery, setSearchQuery] = useState('');
 

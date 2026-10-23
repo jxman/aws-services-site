@@ -123,20 +123,25 @@ if [ ! -f "dist/index.html" ]; then
   exit 1
 fi
 
-# Step 1.5: Create 404.html for SPA routing
-echo -e "${BLUE}📄 Step 1.5: Creating 404.html for SPA routing...${NC}"
-cp dist/index.html dist/404.html
-echo -e "${GREEN}✅ 404.html created${NC}"
-echo ""
+# 404.html, sitemap.xml, and per-route index.html files come from scripts/prerender.mjs (run by npm run build)
+for REQUIRED in dist/404.html dist/sitemap.xml dist/regions/index.html dist/services/index.html; do
+  if [ ! -f "$REQUIRED" ]; then
+    echo -e "${RED}[ERROR]${NC} Prerendered output missing: $REQUIRED (did the prerender step run?)"
+    exit 1
+  fi
+done
 
 if [ "$DRY_RUN" = true ]; then
   echo -e "${YELLOW}⚠️  Dry run: showing what would sync, no upload/backup/invalidation will occur${NC}"
   echo ""
   echo -e "${BLUE}☁️  Step 2: Previewing S3 sync...${NC}"
+  aws s3 sync dist/assets "s3://$S3_BUCKET/assets" --dryrun
   aws s3 sync dist/ "s3://$S3_BUCKET/" \
     --dryrun \
+    --exclude "assets/*" \
     --exclude "data/*" \
     --exclude "reports/*" \
+    --include "reports/index.html" \
     --delete
   echo ""
   echo -e "${GREEN}✅ Dry run complete — no changes were made${NC}"
@@ -151,28 +156,25 @@ aws s3 cp "s3://$S3_BUCKET/index.html" "$BACKUP_FILE" || echo -e "${YELLOW}⚠�
 echo -e "${GREEN}✅ Backup saved: $BACKUP_FILE${NC}"
 echo ""
 
-# Step 3: Upload to S3
-echo -e "${BLUE}☁️  Step 3: Uploading to S3...${NC}"
-aws s3 sync dist/ "s3://$S3_BUCKET/" \
-  --exclude "data/*" \
-  --exclude "reports/*" \
-  --delete
-echo -e "${GREEN}✅ Files uploaded to S3${NC}"
+# Step 3: Upload hashed assets first (long cache), so new HTML never references missing files
+echo -e "${BLUE}☁️  Step 3: Uploading hashed assets...${NC}"
+aws s3 sync dist/assets "s3://$S3_BUCKET/assets" \
+  --cache-control "public,max-age=31536000,immutable"
+echo -e "${GREEN}✅ Assets uploaded${NC}"
 echo ""
 
-# Step 4: Set cache headers for HTML
-echo -e "${BLUE}⚙️  Step 4: Setting cache headers...${NC}"
-aws s3 cp "s3://$S3_BUCKET/index.html" "s3://$S3_BUCKET/index.html" \
-  --cache-control "no-cache,no-store,must-revalidate" \
-  --content-type "text/html" \
-  --metadata-directive REPLACE
-
-aws s3 cp "s3://$S3_BUCKET/404.html" "s3://$S3_BUCKET/404.html" \
-  --cache-control "no-cache,no-store,must-revalidate" \
-  --content-type "text/html" \
-  --metadata-directive REPLACE
-
-echo -e "${GREEN}✅ Cache headers configured${NC}"
+# Step 4: Upload prerendered HTML and other root files (no cache), then prune old assets.
+# data/* and reports/* are written by other services; only the /reports page itself is ours.
+echo -e "${BLUE}☁️  Step 4: Uploading pages and pruning stale files...${NC}"
+aws s3 sync dist/ "s3://$S3_BUCKET/" \
+  --exclude "assets/*" \
+  --exclude "data/*" \
+  --exclude "reports/*" \
+  --include "reports/index.html" \
+  --cache-control "public,max-age=0,must-revalidate" \
+  --delete
+aws s3 sync dist/assets "s3://$S3_BUCKET/assets" --delete --size-only
+echo -e "${GREEN}✅ Pages uploaded${NC}"
 echo ""
 
 # Step 5: Invalidate CloudFront
@@ -209,7 +211,7 @@ else
 fi
 
 # Check SPA routes
-for ROUTE in "/regions" "/services" "/coverage" "/whats-new" "/about"; do
+for ROUTE in "/regions" "/services" "/coverage" "/whats-new" "/about" "/regions/us-east-1" "/services/lambda" "/sitemap.xml"; do
   ROUTE_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL$ROUTE")
   ROUTE_TIME=$(curl -s -o /dev/null -w "%{time_total}" "$SITE_URL$ROUTE")
   if [ "$ROUTE_STATUS" = "200" ]; then
@@ -219,6 +221,24 @@ for ROUTE in "/regions" "/services" "/coverage" "/whats-new" "/about"; do
     VERIFY_FAILED=1
   fi
 done
+
+# Detail pages must be served from their own prerendered file, not the homepage fallback
+REGION_TITLE=$(curl -s "$SITE_URL/regions/us-east-1" | grep -o '<title>[^<]*</title>')
+if echo "$REGION_TITLE" | grep -q "us-east-1"; then
+  echo -e "  ${GREEN}✅ Prerendered region page served: $REGION_TITLE${NC}"
+else
+  echo -e "  ${YELLOW}⚠️  /regions/us-east-1 is not serving its prerendered page (got: $REGION_TITLE) — is the CloudFront URL-rewrite function attached?${NC}"
+  VERIFY_FAILED=1
+fi
+
+# Unknown URLs should return a real 404, not a soft-404 200
+MISSING_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL/this-page-does-not-exist")
+if [ "$MISSING_STATUS" = "404" ]; then
+  echo -e "  ${GREEN}✅ Unknown URL: HTTP 404${NC}"
+else
+  echo -e "  ${YELLOW}⚠️  Unknown URL: HTTP $MISSING_STATUS (expected 404)${NC}"
+  VERIFY_FAILED=1
+fi
 
 # Check data API endpoint
 DATA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL/data/complete-data.json")

@@ -12,6 +12,9 @@ import Services from './views/Services';
 import Coverage from './views/Coverage';
 import Reports from './views/Reports';
 import WhatsNew from './views/WhatsNew';
+import RegionDetail from './views/RegionDetail';
+import ServiceDetail from './views/ServiceDetail';
+import NotFound from './views/NotFound';
 
 // Create a client for TanStack Query
 const queryClient = new QueryClient({
@@ -39,10 +42,13 @@ function AppContent() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/regions" element={<Regions />} />
+          <Route path="/regions/:code" element={<RegionDetail />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:code" element={<ServiceDetail />} />
           <Route path="/coverage" element={<Coverage />} />
           <Route path="/whats-new" element={<WhatsNew />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </>

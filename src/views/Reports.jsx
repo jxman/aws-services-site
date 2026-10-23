@@ -6,8 +6,11 @@ import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { formatRelativeTime } from '../utils/formatters';
 import { calculateCoverage } from '../utils/calculations';
 import { trackEvent } from '../utils/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { STATIC_PAGES } from '../utils/seo';
 
 function Reports() {
+  usePageMeta(STATIC_PAGES['/reports']);
   const { data, isLoading } = useAWSData();
   const { data: serviceNamesData, isLoading: isLoadingNames } = useServiceNames();
   const lastUpdated = data?.metadata?.timestamp;

@@ -2,22 +2,23 @@ import { useState, useMemo } from 'react';
 import Container from '../components/layout/Container';
 import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
-import ServiceDetailModal from '../components/common/ServiceDetailModal';
+import { Link } from 'react-router-dom';
 import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { getCoverageColor } from '../utils/constants';
 import { calculateCoverage } from '../utils/calculations';
 import { formatNumber, formatPercentage } from '../utils/formatters';
 import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
 import { trackEvent } from '../utils/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { STATIC_PAGES, servicePath } from '../utils/seo';
 
 function Services() {
+  usePageMeta(STATIC_PAGES['/services']);
   const { data, isLoading, isError, error, refetch } = useAWSData();
   const { data: serviceNamesData, isLoading: isLoadingNames } = useServiceNames();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCoverage, setFilterCoverage] = useState('all');
   const [sortBy, setSortBy] = useState('name');
-  const [selectedService, setSelectedService] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const servicesData = useMemo(() => {
     if (!data || !serviceNamesData) return [];
@@ -85,17 +86,6 @@ function Services() {
       return 0;
     });
   }, [servicesData, searchTerm, filterCoverage, sortBy]);
-
-  const handleServiceClick = (service) => {
-    trackEvent('view_item_detail', { item_type: 'service', item_code: service.code });
-    setSelectedService(service);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedService(null);
-  };
 
   const exportToCSV = () => {
     trackEvent('file_export', { file_type: 'csv', report_name: 'services', source: 'services_page' });
@@ -240,10 +230,11 @@ function Services() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredAndSortedServices.map((service) => (
-            <div
+            <Link
               key={service.code}
-              onClick={() => handleServiceClick(service)}
-              className="bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg p-6 hover:border-primary transition-colors cursor-pointer"
+              to={servicePath(service.code)}
+              onClick={() => trackEvent('view_item_detail', { item_type: 'service', item_code: service.code })}
+              className="block bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg p-6 hover:border-primary transition-colors cursor-pointer"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
@@ -285,7 +276,7 @@ function Services() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
@@ -307,14 +298,6 @@ function Services() {
           </div>
         </div>
       </div>
-
-      {/* Service Detail Modal */}
-      <ServiceDetailModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        service={selectedService}
-        regions={selectedService?.regions || []}
-      />
     </Container>
   );
 }

@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./scripts/prerender.mjs",
   ],
   darkMode: 'class', // Enable class-based dark mode
   theme: {

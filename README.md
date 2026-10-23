@@ -64,7 +64,7 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Coverage Analysis**: Visual coverage percentages with color coding
 - **Multi-Term Search**: Comma-separated search with OR logic (e.g., `us-, ap-` finds all US and Asia Pacific regions)
 - **Search & Filter**: Real-time search and coverage-based filtering
-- **Detail Modals**: Click any region for detailed service lists and metadata
+- **Region Pages**: Every region has its own page (`/regions/us-east-1`) listing available and not-yet-available services
 - **CSV Export**: Export all regions or region-specific data
 
 ### 🔧 Services View
@@ -73,7 +73,7 @@ AWS Services Dashboard is a modern web application that provides comprehensive v
 - **Coverage Metrics**: Track service availability across regions
 - **Multi-Term Search**: Comma-separated search (e.g., `lambda, s3` finds both services)
 - **Search & Sort**: Filter by name, code, or coverage percentage
-- **Detail Modals**: View regions where each service is available
+- **Service Pages**: Every service has its own page (`/services/lambda`) listing the regions that do and don't support it
 - **CSV Export**: Export all services or service-specific data
 
 ### 📈 Coverage Matrix
@@ -173,6 +173,12 @@ npm run build
 npm run preview
 ```
 
+`npm run build` runs `vite build` and then `scripts/prerender.mjs`. That script fetches the live data files (`/data/complete-data.json`, `/data/services.json`) and writes a static HTML file for every route — the main pages plus one per region and per service — each with its own title, description, canonical URL, and crawlable content. It also generates `dist/sitemap.xml` and `dist/404.html`. React replaces the prerendered content when it mounts.
+
+- Build offline from local copies: `PRERENDER_DATA_DIR=/path/to/data npm run build`
+- The prerendered pages reflect the data at build time; redeploy to refresh them
+- Requires the CloudFront URL-rewrite function (`/regions/us-east-1` → `/regions/us-east-1/index.html`) from the hosting Terraform
+
 ---
 
 ## 📁 Project Structure
@@ -181,7 +187,7 @@ npm run preview
 aws-services-site/
 ├── public/                 # Static assets
 │   ├── profile.png        # Local profile picture (CSP compliant)
-│   └── sitemap.xml        # SEO sitemap
+│   └── robots.txt         # Crawler rules (sitemap.xml is generated at build time)
 │
 ├── src/
 │   ├── components/          # Reusable UI components

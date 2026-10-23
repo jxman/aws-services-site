@@ -2,20 +2,21 @@ import { useState, useMemo } from 'react';
 import Container from '../components/layout/Container';
 import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
-import RegionDetailModal from '../components/common/RegionDetailModal';
+import { Link } from 'react-router-dom';
 import { useAWSData } from '../hooks/useAWSData';
 import { getCoverageColor } from '../utils/constants';
 import { calculateCoverage } from '../utils/calculations';
 import { formatNumber, formatPercentage } from '../utils/formatters';
 import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
 import { trackEvent } from '../utils/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { STATIC_PAGES, regionPath } from '../utils/seo';
 
 function Regions() {
+  usePageMeta(STATIC_PAGES['/regions']);
   const { data, isLoading, isError, error, refetch } = useAWSData();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCoverage, setFilterCoverage] = useState('all');
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const regionsData = useMemo(() => {
     if (!data) return [];
@@ -66,17 +67,6 @@ function Regions() {
 
     return filtered.sort((a, b) => b.serviceCount - a.serviceCount);
   }, [regionsData, searchTerm, filterCoverage]);
-
-  const handleRegionClick = (region) => {
-    trackEvent('view_item_detail', { item_type: 'region', item_code: region.code });
-    setSelectedRegion(region);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedRegion(null);
-  };
 
   const exportToCSV = () => {
     trackEvent('file_export', { file_type: 'csv', report_name: 'regions', source: 'regions_page' });
@@ -209,10 +199,11 @@ function Regions() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredRegions.map((region) => (
-            <div
+            <Link
               key={region.code}
-              onClick={() => handleRegionClick(region)}
-              className="bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg p-6 hover:border-primary transition-colors cursor-pointer"
+              to={regionPath(region.code)}
+              onClick={() => trackEvent('view_item_detail', { item_type: 'region', item_code: region.code })}
+              className="block bg-bg-light-secondary dark:bg-bg-secondary border border-border-light dark:border-border rounded-lg p-6 hover:border-primary transition-colors cursor-pointer"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
@@ -254,7 +245,7 @@ function Regions() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
@@ -276,14 +267,6 @@ function Regions() {
           </div>
         </div>
       </div>
-
-      {/* Region Detail Modal */}
-      <RegionDetailModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        region={selectedRegion}
-        services={selectedRegion?.services || []}
-      />
     </Container>
   );
 }

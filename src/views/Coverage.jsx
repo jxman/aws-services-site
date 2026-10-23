@@ -1,12 +1,16 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import Container from '../components/layout/Container';
 import Loading from '../components/common/Loading';
 import ErrorMessage from '../components/common/ErrorMessage';
 import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { parseSearchTerms, matchesSearchTerms } from '../utils/searchUtils';
 import { trackEvent } from '../utils/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { STATIC_PAGES, regionPath, servicePath } from '../utils/seo';
 
 function Coverage() {
+  usePageMeta(STATIC_PAGES['/coverage']);
   const { data, isLoading, isError, error, refetch } = useAWSData();
   const { data: serviceNamesData, isLoading: isLoadingNames } = useServiceNames();
   const [searchTerm, setSearchTerm] = useState('');
@@ -106,7 +110,7 @@ function Coverage() {
   return (
     <Container className="max-w-full">
       <div className="mb-6">
-        <h1 className="text-4xl font-bold text-text-light-primary dark:text-text-primary mb-2">Coverage Matrix</h1>
+        <h1 className="text-4xl font-bold text-text-light-primary dark:text-text-primary mb-2">{STATIC_PAGES['/coverage'].heading}</h1>
         <p className="text-text-light-secondary dark:text-text-secondary text-lg">
           Service × Region availability for {matrixData.services.length} AWS services across {matrixData.regions.length} regions
         </p>
@@ -163,7 +167,7 @@ function Coverage() {
                     className="px-2 py-3 text-center text-text-light-primary dark:text-text-primary font-semibold border-b border-border-light dark:border-border min-w-[80px]"
                     title={region.name}
                   >
-                    <div className="text-xs">{region.code}</div>
+                    <Link to={regionPath(region.code)} className="text-xs hover:text-primary">{region.code}</Link>
                   </th>
                 ))}
               </tr>
@@ -175,7 +179,7 @@ function Coverage() {
                   className={idx % 2 === 0 ? 'bg-bg-light-secondary dark:bg-bg-secondary' : 'bg-bg-light-primary dark:bg-bg-primary'}
                 >
                   <td className="sticky left-0 px-4 py-3 border-r border-border-light dark:border-border font-medium text-text-light-primary dark:text-text-primary bg-inherit z-[4]">
-                    <div className="text-sm">{service.name}</div>
+                    <Link to={servicePath(service.code)} className="block text-sm hover:text-primary">{service.name}</Link>
                     <div className="text-xs text-text-light-secondary dark:text-text-secondary font-mono">{service.code}</div>
                   </td>
                   {matrixData.regions.map(region => {

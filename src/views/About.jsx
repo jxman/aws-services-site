@@ -1,8 +1,11 @@
 import Container from "../components/layout/Container";
 import { DATA_SOURCE } from "../config/aws-config";
 import Logo from "../components/common/Logo";
+import { usePageMeta } from "../hooks/usePageMeta";
+import { STATIC_PAGES } from "../utils/seo";
 
 function About() {
+  usePageMeta(STATIC_PAGES["/about"]);
   return (
     <Container>
       <div className="max-w-4xl mx-auto">
