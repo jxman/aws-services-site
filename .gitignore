@@ -71,6 +71,11 @@ temp/
 coverage/
 .nyc_output/
 
+# Playwright (MCP browser session snapshots/logs, test runner output)
+.playwright-mcp/
+test-results/
+playwright-report/
+
 # Misc Build Tools
 .cache/
 .vite/
