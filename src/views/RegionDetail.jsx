@@ -6,7 +6,7 @@ import ErrorMessage from '../components/common/ErrorMessage';
 import NotFound from './NotFound';
 import { useAWSData, useServiceNames } from '../hooks/useAWSData';
 import { usePageMeta } from '../hooks/usePageMeta';
-import { buildAwsIndex } from '../utils/awsIndex';
+import { buildAwsIndex, safeExternalUrl } from '../utils/awsIndex';
 import { regionPageMeta, servicePath } from '../utils/seo';
 import { calculateCoverage } from '../utils/calculations';
 import { formatDate, formatNumber, formatPercentage } from '../utils/formatters';
@@ -96,6 +96,8 @@ function RegionDetail() {
   }
 
   const meta = regionPageMeta(region, availableServices.length);
+  const safeBlogUrl = safeExternalUrl(region.blogUrl);
+  const blogUrl = safeBlogUrl && safeBlogUrl.startsWith('https://') ? safeBlogUrl : null;
 
   return (
     <Container>
@@ -150,9 +152,9 @@ function RegionDetail() {
           </svg>
           Export CSV
         </button>
-        {region.blogUrl && (
+        {blogUrl && (
           <a
-            href={region.blogUrl}
+            href={blogUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-primary hover:text-primary-light transition-colors"

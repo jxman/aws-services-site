@@ -1,4 +1,21 @@
 /**
+ * Returns the URL only if it is an absolute http(s) URL, so remote data can't
+ * inject javascript: or other scheme URLs into links.
+ *
+ * @param {string} url
+ * @returns {string|null}
+ */
+export const safeExternalUrl = (url) => {
+  if (typeof url !== 'string') return null;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? parsed.href : null;
+  } catch {
+    return null;
+  }
+};
+
+/**
  * Builds region → services and service → regions lookups from
  * complete-data.json and services.json.
  *
@@ -22,7 +39,7 @@ export const buildAwsIndex = (data, serviceNames = []) => {
       name: region.name || region.code,
       availabilityZones: region.availabilityZones,
       launchDate: region.launchDate,
-      blogUrl: region.blogUrl,
+      blogUrl: safeExternalUrl(region.blogUrl),
       services: byRegion[region.code]?.services || [],
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
